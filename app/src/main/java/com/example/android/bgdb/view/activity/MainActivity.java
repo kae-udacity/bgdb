@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.view.fragment.NavBarFragment;
-import com.example.android.bgdb.view.fragment.ListFragment;
+import com.example.android.bgdb.view.fragment.PopularListFragment;
 
 public class MainActivity extends AppCompatActivity implements
         NavBarFragment.OnFragmentInteractionListener,
-        ListFragment.OnFragmentInteractionListener {
+        PopularListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

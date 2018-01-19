@@ -1,6 +1,7 @@
 package com.example.android.bgdb.view.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,15 +28,17 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.View
     private Context context;
     private List<BoardGame> boardGames;
     private BoardGameOnClickHandler clickHandler;
+    private int layoutId;
 
-    public BoardGameAdapter(Context context, BoardGameOnClickHandler clickHandler) {
+    public BoardGameAdapter(Context context, BoardGameOnClickHandler clickHandler, int layoutId) {
         this.context = context;
         this.clickHandler = clickHandler;
+        this.layoutId = layoutId;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
@@ -45,7 +48,9 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.View
             return;
         }
         BoardGame boardGame = boardGames.get(position);
-        holder.textViewRank.setText(boardGame.getRank());
+        if (holder.textViewRank != null) {
+            holder.textViewRank.setText(boardGame.getRank());
+        }
         holder.textViewName.setText(boardGame.getName());
         holder.textViewYear.setText(boardGame.getYear());
         Glide.with(context).load(boardGame.getThumbnailUrl()).into(holder.imageViewThumbnail);
@@ -73,6 +78,7 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.text_view_rank)
+        @Nullable
         TextView textViewRank;
 
         @BindView(R.id.text_view_name)

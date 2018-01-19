@@ -27,12 +27,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ListFragment.OnFragmentInteractionListener} interface
+ * {@link PopularListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the {@link PopularListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment implements
+public class PopularListFragment extends Fragment implements
         BoardGameListView,
         BoardGameAdapter.BoardGameOnClickHandler {
 
@@ -45,7 +45,7 @@ public class ListFragment extends Fragment implements
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    public ListFragment() {
+    public PopularListFragment() {
         // Required empty public constructor
     }
 
@@ -53,10 +53,10 @@ public class ListFragment extends Fragment implements
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment ListFragment.
+     * @return A new instance of fragment PopularListFragment.
      */
-    public static ListFragment newInstance(Context context, SearchType searchType) {
-        ListFragment fragment = new ListFragment();
+    public static PopularListFragment newInstance(Context context, SearchType searchType) {
+        PopularListFragment fragment = new PopularListFragment();
         Bundle args = new Bundle();
         args.putSerializable(context.getString(R.string.search_type), searchType);
         fragment.setArguments(args);
@@ -77,7 +77,9 @@ public class ListFragment extends Fragment implements
         BoardGameListPresenter boardGameListPresenter = new BoardGameListPresenterImpl(this);
         boardGameListPresenter.load(searchType);
 
-        boardGameAdapter = new BoardGameAdapter(getContext(), this);
+        int layoutId = searchType == SearchType.FAVOURITE ?
+                R.layout.layout_list_item : R.layout.layout_list_item_ranked;
+        boardGameAdapter = new BoardGameAdapter(getContext(), this, layoutId);
         recyclerView.setAdapter(boardGameAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);

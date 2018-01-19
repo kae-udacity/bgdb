@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * Uses JSoup to retrieve board game data from URL and returns a {@link List} of {@link BoardGame} objects.
+ * Retrieves board game data from URL and returns a {@link List} of {@link BoardGame} objects.
  */
 
 public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> {

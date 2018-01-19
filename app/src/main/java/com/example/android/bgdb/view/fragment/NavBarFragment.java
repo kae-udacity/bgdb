@@ -72,7 +72,7 @@ public class NavBarFragment extends Fragment {
             setUpBottomNavigationBar(fragmentManager);
 
             //Manually displaying the first fragment - one time only
-            replaceFragment(ListFragment.newInstance(getContext(), SearchType.HOT), fragmentManager);
+            replaceFragment(PopularListFragment.newInstance(getContext(), SearchType.HOT), fragmentManager);
         }
     }
 
@@ -93,13 +93,13 @@ public class NavBarFragment extends Fragment {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.action_the_hotness:
-                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.HOT);
+                                selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.HOT);
                                 break;
                             case R.id.action_top_100:
-                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.TOP);
+                                selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                             case R.id.action_favorites:
-                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.TOP);
+                                selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                         }
                         replaceFragment(selectedFragment, fragmentManager);
