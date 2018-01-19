@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
+import com.example.android.bgdb.presenter.SearchType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +72,7 @@ public class NavBarFragment extends Fragment {
             setUpBottomNavigationBar(fragmentManager);
 
             //Manually displaying the first fragment - one time only
-            replaceFragment(ListFragment.newInstance(), fragmentManager);
+            replaceFragment(ListFragment.newInstance(getContext(), SearchType.HOT), fragmentManager);
         }
     }
 
@@ -92,13 +93,13 @@ public class NavBarFragment extends Fragment {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.action_the_hotness:
-                                selectedFragment = ListFragment.newInstance();
+                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.HOT);
                                 break;
                             case R.id.action_top_100:
-                                selectedFragment = ListFragment.newInstance();
+                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                             case R.id.action_favorites:
-                                selectedFragment = ListFragment.newInstance();
+                                selectedFragment = ListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                         }
                         replaceFragment(selectedFragment, fragmentManager);

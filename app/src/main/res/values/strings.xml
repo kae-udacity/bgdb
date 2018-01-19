@@ -3,4 +3,5 @@
     <string name="the_hotness">The Hotness</string>
     <string name="top_100">Top 100</string>
     <string name="favourites">Favourites</string>
+    <string name="search_type">search_type</string>
 </resources>

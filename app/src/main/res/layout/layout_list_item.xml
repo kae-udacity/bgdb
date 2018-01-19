@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:layout_margin="@dimen/list_item_margin">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/list_item_guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.1"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/text_view_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_rank_height"
+        android:gravity="center"
+        android:textSize="@dimen/list_rank_text_size"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/list_item_guideline_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="123" />
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="@dimen/list_name_width"
+        android:layout_height="@dimen/list_name_height"
+        android:layout_marginStart="@dimen/list_name_margin"
+        android:layout_marginLeft="@dimen/list_name_margin"
+        android:gravity="bottom"
+        android:textSize="@dimen/list_name_text_size"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/text_view_year"
+        app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
+        app:layout_constraintEnd_toStartOf="@id/image_view_thumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="board game name" />
+
+    <TextView
+        android:id="@+id/text_view_year"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_year_height"
+        android:layout_marginStart="@dimen/list_year_margin"
+        android:layout_marginLeft="@dimen/list_year_margin"
+        android:gravity="top"
+        android:textSize="@dimen/list_year_text_size"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@id/text_view_name"
+        tools:text="4444" />
+
+    <ImageView
+        android:id="@+id/image_view_thumbnail"
+        android:layout_width="@dimen/list_thumbnail_width"
+        android:layout_height="@dimen/list_thumbnail_height"
+        android:layout_marginStart="@dimen/list_thumbnail_margin"
+        android:layout_marginLeft="@dimen/list_thumbnail_margin"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_view_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
