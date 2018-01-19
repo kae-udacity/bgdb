@@ -99,7 +99,6 @@ public class NavBarFragment extends Fragment {
                                 selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                             case R.id.action_favorites:
-                                selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                         }
                         replaceFragment(selectedFragment, fragmentManager);

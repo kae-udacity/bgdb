@@ -77,9 +77,7 @@ public class PopularListFragment extends Fragment implements
         BoardGameListPresenter boardGameListPresenter = new BoardGameListPresenterImpl(this);
         boardGameListPresenter.load(searchType);
 
-        int layoutId = searchType == SearchType.FAVOURITE ?
-                R.layout.layout_list_item : R.layout.layout_list_item_ranked;
-        boardGameAdapter = new BoardGameAdapter(getContext(), this, layoutId);
+        boardGameAdapter = new BoardGameAdapter(getContext(), this, R.layout.layout_list_item_ranked);
         recyclerView.setAdapter(boardGameAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
