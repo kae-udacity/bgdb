@@ -1,5 +1,7 @@
 package com.example.android.bgdb.model;
 
+import android.graphics.Bitmap;
+
 /**
  * Stores board game data.
  */
@@ -10,6 +12,7 @@ public class BoardGame {
     private String name;
     private String year;
     private String thumbnailUrl;
+    private Bitmap thumbnail;
     private String rank;
 
     public String getId() {
@@ -42,6 +45,14 @@ public class BoardGame {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getRank() {

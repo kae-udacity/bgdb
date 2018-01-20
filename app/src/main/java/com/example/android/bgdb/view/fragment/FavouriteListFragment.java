@@ -4,21 +4,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
-import com.example.android.bgdb.presenter.PopularListPresenter;
-import com.example.android.bgdb.presenter.PopularListPresenterImpl;
-import com.example.android.bgdb.model.SearchType;
+import com.example.android.bgdb.presenter.FavouriteListPresenter;
+import com.example.android.bgdb.presenter.FavouriteListPresenterImpl;
 import com.example.android.bgdb.view.adapter.BoardGameOnClickHandler;
-import com.example.android.bgdb.view.adapter.PopularListAdapter;
+import com.example.android.bgdb.view.adapter.FavouriteListAdapter;
 
 import java.util.List;
 
@@ -30,23 +27,20 @@ import butterknife.ButterKnife;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PopularListFragment#newInstance} factory method to
+ * Use the {@link FavouriteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PopularListFragment extends Fragment implements
-        PopularListView,
+public class FavouriteListFragment extends Fragment implements
+        FavouriteListView,
         BoardGameOnClickHandler {
 
     private OnFragmentInteractionListener listener;
-    private PopularListAdapter adapter;
+    private FavouriteListAdapter adapter;
 
     @BindView(R.id.list_recycler_view)
     RecyclerView recyclerView;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-
-    public PopularListFragment() {
+    public FavouriteListFragment() {
         // Required empty public constructor
     }
 
@@ -54,14 +48,10 @@ public class PopularListFragment extends Fragment implements
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment PopularListFragment.
+     * @return A new instance of fragment FavouriteListFragment.
      */
-    public static PopularListFragment newInstance(Context context, SearchType searchType) {
-        PopularListFragment fragment = new PopularListFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(context.getString(R.string.search_type), searchType);
-        fragment.setArguments(args);
-        return fragment;
+    public static FavouriteListFragment newInstance() {
+        return new FavouriteListFragment();
     }
 
     @Override
@@ -70,19 +60,14 @@ public class PopularListFragment extends Fragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
-        Bundle args = getArguments();
-        SearchType searchType = null;
-        if (args != null && args.containsKey(getString(R.string.search_type))) {
-            searchType = (SearchType) args.get(getString(R.string.search_type));
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            FavouriteListPresenter presenter = new FavouriteListPresenterImpl(this);
+            presenter.createLoader(activity.getSupportLoaderManager());
         }
-        PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this);
-        popularListPresenter.load(searchType);
 
-        adapter = new PopularListAdapter(getContext(), this);
+        adapter = new FavouriteListAdapter(getContext(), this);
         recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                LinearLayoutManager.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
         return view;
     }
 
@@ -104,14 +89,7 @@ public class PopularListFragment extends Fragment implements
     }
 
     @Override
-    public void onPreLoad() {
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPostLoad(List<BoardGame> boardGames) {
-        progressBar.setVisibility(View.GONE);
+    public void onLoadFinished(List<BoardGame> boardGames) {
         if (boardGames == null || boardGames.isEmpty()) {
             displayEmptyView();
         } else {
@@ -133,5 +111,4 @@ public class PopularListFragment extends Fragment implements
     public void onClick(BoardGame boardGame) {
 
     }
-
 }

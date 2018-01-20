@@ -1,4 +1,4 @@
-package com.example.android.bgdb.presenter;
+package com.example.android.bgdb.model;
 
 public enum SearchType {
 

@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.presenter.SearchType;
+import com.example.android.bgdb.model.SearchType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NavBarFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link NavBarFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -99,6 +99,7 @@ public class NavBarFragment extends Fragment {
                                 selectedFragment = PopularListFragment.newInstance(getContext(), SearchType.TOP);
                                 break;
                             case R.id.action_favorites:
+                                selectedFragment = FavouriteListFragment.newInstance();
                                 break;
                         }
                         replaceFragment(selectedFragment, fragmentManager);
@@ -128,15 +129,5 @@ public class NavBarFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction();
     }
 }

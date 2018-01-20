@@ -4,7 +4,10 @@ import com.example.android.bgdb.model.BoardGame;
 
 import java.util.List;
 
-public interface BoardGameListView {
+/**
+ * Must be implemented to communicate with presenter.
+ */
+public interface PopularListView {
 
     void onPreLoad();
     void onPostLoad(List<BoardGame> boardGames);

@@ -1,9 +1,11 @@
-package com.example.android.bgdb.presenter;
+package com.example.android.bgdb.presenter.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.presenter.PopularListPresenter;
+import com.example.android.bgdb.model.SearchType;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,15 +21,15 @@ import java.util.List;
 public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> {
 
     private static final String TAG = BoardGameAsyncTask.class.getSimpleName();
-    private BoardGameListPresenter boardGameListPresenter;
+    private PopularListPresenter popularListPresenter;
 
-    BoardGameAsyncTask(BoardGameListPresenter boardGameListPresenter) {
-        this.boardGameListPresenter = boardGameListPresenter;
+    public BoardGameAsyncTask(PopularListPresenter popularListPresenter) {
+        this.popularListPresenter = popularListPresenter;
     }
 
     @Override
     protected void onPreExecute() {
-        boardGameListPresenter.onPreLoad();
+        popularListPresenter.onPreLoad();
     }
 
     @Override
@@ -52,6 +54,6 @@ public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGa
 
     @Override
     protected void onPostExecute(List<BoardGame> boardGames) {
-        boardGameListPresenter.onPostLoad(boardGames);
+        popularListPresenter.onPostLoad(boardGames);
     }
 }

@@ -1,9 +1,9 @@
-package com.example.android.bgdb.presenter;
+package com.example.android.bgdb.presenter.task;
 
 import android.support.annotation.NonNull;
 
+import com.example.android.bgdb.model.ApiConstants;
 import com.example.android.bgdb.model.BoardGame;
-import com.example.android.bgdb.model.Constants;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,7 +38,7 @@ class Parser {
 
     static List<BoardGame> getListFromHtml(Document document) {
         List<BoardGame> boardGames = new ArrayList<>();
-        Elements elements = document.select(Constants.COLLECTION_TABLE_ROWS);
+        Elements elements = document.select(ApiConstants.COLLECTION_TABLE_ROWS);
 
         BoardGame boardGame;
         for (Element element : elements) {
@@ -51,26 +51,26 @@ class Parser {
     @NonNull
     private static BoardGame getBoardGame(Element element) {
         BoardGame boardGame = new BoardGame();
-        Elements name = element.select(Constants.COLLECTION_OBJECT_NAME);
+        Elements name = element.select(ApiConstants.COLLECTION_OBJECT_NAME);
         boardGame.setId(getId(name));
         boardGame.setName(name.text());
         boardGame.setYear(getYear(element));
         boardGame.setThumbnailUrl(getThumbnailUrl(element));
-        boardGame.setRank(element.select(Constants.COLLECTION_RANK).text());
+        boardGame.setRank(element.select(ApiConstants.COLLECTION_RANK).text());
         return boardGame;
     }
 
     private static String getYear(Element element) {
-        return element.select(Constants.COLLECTION_YEAR).text().replaceAll("[()]", "");
+        return element.select(ApiConstants.COLLECTION_YEAR).text().replaceAll("[()]", "");
     }
 
     private static String getThumbnailUrl(Element element) {
-        String src = element.select(Constants.COLLECTION_THUMBNAIL).attr(Constants.SRC);
-        return src.replace(Constants.THUMBNAIL_SUFFIX, Constants.IMAGE_SUFFIX);
+        String src = element.select(ApiConstants.COLLECTION_THUMBNAIL).attr(ApiConstants.SRC);
+        return src.replace(ApiConstants.THUMBNAIL_SUFFIX, ApiConstants.IMAGE_SUFFIX);
     }
 
     private static String getId(Elements name) {
-        String s = name.attr(Constants.HREF);
+        String s = name.attr(ApiConstants.HREF);
         String[] segments = s.split("/");
         return segments[segments.length - 2];
     }

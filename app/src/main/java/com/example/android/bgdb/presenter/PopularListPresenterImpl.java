@@ -1,7 +1,9 @@
 package com.example.android.bgdb.presenter;
 
 import com.example.android.bgdb.model.BoardGame;
-import com.example.android.bgdb.view.fragment.BoardGameListView;
+import com.example.android.bgdb.model.SearchType;
+import com.example.android.bgdb.presenter.task.BoardGameAsyncTask;
+import com.example.android.bgdb.view.fragment.PopularListView;
 
 import java.util.List;
 
@@ -10,12 +12,12 @@ import java.util.List;
  * Sends the list onto the View when the list is retrieved.
  */
 
-public class BoardGameListPresenterImpl implements BoardGameListPresenter {
+public class PopularListPresenterImpl implements PopularListPresenter {
 
-    private BoardGameListView boardGameListView;
+    private PopularListView popularListView;
 
-    public BoardGameListPresenterImpl(BoardGameListView boardGameListView) {
-        this.boardGameListView = boardGameListView;
+    public PopularListPresenterImpl(PopularListView popularListView) {
+        this.popularListView = popularListView;
     }
 
     @Override
@@ -26,11 +28,11 @@ public class BoardGameListPresenterImpl implements BoardGameListPresenter {
 
     @Override
     public void onPreLoad() {
-        boardGameListView.onPreLoad();
+        popularListView.onPreLoad();
     }
 
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
-        boardGameListView.onPostLoad(boardGames);
+        popularListView.onPostLoad(boardGames);
     }
 }

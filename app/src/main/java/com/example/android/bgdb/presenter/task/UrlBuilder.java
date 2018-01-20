@@ -1,9 +1,10 @@
-package com.example.android.bgdb.presenter;
+package com.example.android.bgdb.presenter.task;
 
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.bgdb.model.Constants;
+import com.example.android.bgdb.model.ApiConstants;
+import com.example.android.bgdb.model.SearchType;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,19 +37,19 @@ class UrlBuilder {
     }
 
     private static Uri getUri(SearchType searchType) {
-        Uri uri = Uri.parse(Constants.BASE_URL);
+        Uri uri = Uri.parse(ApiConstants.BASE_BGG_URL);
         switch (searchType) {
             case HOT:
                 uri = uri.buildUpon()
-                        .appendPath(Constants.API)
-                        .appendPath(Constants.HOT)
-                        .appendQueryParameter(Constants.TYPE, Constants.BOARD_GAME)
+                        .appendPath(ApiConstants.API)
+                        .appendPath(ApiConstants.HOT)
+                        .appendQueryParameter(ApiConstants.TYPE, ApiConstants.BOARD_GAME)
                         .build();
                 break;
             case TOP:
                 uri = uri.buildUpon()
-                        .appendPath(Constants.BROWSE)
-                        .appendPath(Constants.BOARD_GAME)
+                        .appendPath(ApiConstants.BROWSE)
+                        .appendPath(ApiConstants.BOARD_GAME)
                         .build();
                 break;
             default:

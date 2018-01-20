@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">BGDb</string>
+    <string name="app_name" translatable="false">BGDb</string>
+    <string name="authority" translatable="false">com.example.android.bgdb</string>
+    <string name="search_type" translatable="false">search_type</string>
+    <string name="parameter_placeholder" translatable="false">=?</string>
+    <string name="unknown_uri" translatable="false">Unknown uri: </string>
+    <string name="insert_row_failed" translatable="false">Failed to insert row into </string>
     <string name="the_hotness">The Hotness</string>
     <string name="top_100">Top 100</string>
     <string name="favourites">Favourites</string>
-    <string name="search_type">search_type</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>
