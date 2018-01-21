@@ -1,4 +1,4 @@
-package com.example.android.bgdb.presenter.task;
+package com.example.android.bgdb.model.task;
 
 import android.support.annotation.NonNull;
 
@@ -16,7 +16,6 @@ import java.util.List;
  * Parses the {@link Document} and extracts a {@link List} of {@link BoardGame} objects.
  * Parses XML and HTML documents.
  */
-
 class Parser {
 
     static List<BoardGame> getListFromXml(Document document) {

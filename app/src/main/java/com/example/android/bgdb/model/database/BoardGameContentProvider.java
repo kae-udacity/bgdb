@@ -1,4 +1,4 @@
-package com.example.android.bgdb.presenter.database;
+package com.example.android.bgdb.model.database;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -12,13 +12,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.model.BoardGameContract;
-import com.example.android.bgdb.model.BoardGameContract.BoardGameEntry;
+import com.example.android.bgdb.model.database.BoardGameContract.BoardGameEntry;
 
 /**
  * Manages access to the data stored in the favourites table of the database.
  */
-
 public class BoardGameContentProvider extends ContentProvider {
 
     private static final String INVALID_CONTEXT_VALUE = "Invalid context value: context is null.";

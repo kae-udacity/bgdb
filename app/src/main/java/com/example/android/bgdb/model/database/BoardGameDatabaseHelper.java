@@ -1,15 +1,14 @@
-package com.example.android.bgdb.presenter.database;
+package com.example.android.bgdb.model.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.bgdb.model.BoardGameContract.BoardGameEntry;
+import com.example.android.bgdb.model.database.BoardGameContract.BoardGameEntry;
 
 /**
  * Manages database creation and version management.
  */
-
 public class BoardGameDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "boardgames.db";

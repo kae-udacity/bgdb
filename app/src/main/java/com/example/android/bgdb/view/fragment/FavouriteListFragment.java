@@ -4,22 +4,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.presenter.FavouriteListPresenter;
 import com.example.android.bgdb.presenter.FavouriteListPresenterImpl;
-import com.example.android.bgdb.view.adapter.BoardGameOnClickHandler;
-import com.example.android.bgdb.view.adapter.FavouriteListAdapter;
+import com.example.android.bgdb.view.ContextWrapper;
+import com.example.android.bgdb.view.adapter.ListAdapter;
 
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -30,15 +26,9 @@ import butterknife.ButterKnife;
  * Use the {@link FavouriteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavouriteListFragment extends Fragment implements
-        FavouriteListView,
-        BoardGameOnClickHandler {
+public class FavouriteListFragment extends BaseViewImpl implements FavouriteListView {
 
     private OnFragmentInteractionListener listener;
-    private FavouriteListAdapter adapter;
-
-    @BindView(R.id.list_recycler_view)
-    RecyclerView recyclerView;
 
     public FavouriteListFragment() {
         // Required empty public constructor
@@ -60,14 +50,13 @@ public class FavouriteListFragment extends Fragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            FavouriteListPresenter presenter = new FavouriteListPresenterImpl(this);
-            presenter.createLoader(activity.getSupportLoaderManager());
-        }
 
-        adapter = new FavouriteListAdapter(getContext(), this);
-        recyclerView.setAdapter(adapter);
+        FavouriteListPresenter presenter = new FavouriteListPresenterImpl(FavouriteListFragment.this);
+        ContextWrapper contextWrapper = new ContextWrapper(getContext());
+        presenter.createLoader(contextWrapper);
+
+        ListAdapter adapter = new ListAdapter(getContext(), this);
+        onCreateView(adapter);
         return view;
     }
 
@@ -89,26 +78,11 @@ public class FavouriteListFragment extends Fragment implements
     }
 
     @Override
-    public void onLoadFinished(List<BoardGame> boardGames) {
-        if (boardGames == null || boardGames.isEmpty()) {
-            displayEmptyView();
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            updateAdapter(boardGames);
+    public LoaderManager getSupportLoaderManager() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity == null) {
+            return null;
         }
-    }
-
-    private void updateAdapter(List<BoardGame> boardGames) {
-        adapter.setBoardGames(boardGames);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void displayEmptyView() {
-
-    }
-
-    @Override
-    public void onClick(BoardGame boardGame) {
-
+        return activity.getSupportLoaderManager();
     }
 }

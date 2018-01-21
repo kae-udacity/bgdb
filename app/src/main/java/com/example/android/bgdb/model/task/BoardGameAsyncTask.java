@@ -1,4 +1,4 @@
-package com.example.android.bgdb.presenter.task;
+package com.example.android.bgdb.model.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Retrieves board game data from URL and returns a {@link List} of {@link BoardGame} objects.
  */
-
 public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> {
 
     private static final String TAG = BoardGameAsyncTask.class.getSimpleName();

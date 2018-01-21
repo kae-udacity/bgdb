@@ -1,13 +1,11 @@
 package com.example.android.bgdb.view.fragment;
 
-import com.example.android.bgdb.model.BoardGame;
-
-import java.util.List;
+import android.support.v4.app.LoaderManager;
 
 /**
  * Must be implemented to communicate with presenter.
  */
-public interface FavouriteListView {
+public interface FavouriteListView extends BaseView {
 
-    void onLoadFinished(List<BoardGame> boardGames);
+    LoaderManager getSupportLoaderManager();
 }

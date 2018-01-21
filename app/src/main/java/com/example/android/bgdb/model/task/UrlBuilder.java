@@ -1,4 +1,4 @@
-package com.example.android.bgdb.presenter.task;
+package com.example.android.bgdb.model.task;
 
 import android.net.Uri;
 import android.util.Log;
@@ -12,7 +12,6 @@ import java.net.URL;
 /**
  * Builds the {@link URL} using the provided {@link SearchType}.
  */
-
 class UrlBuilder {
 
     private static final String TAG = UrlBuilder.class.getSimpleName();

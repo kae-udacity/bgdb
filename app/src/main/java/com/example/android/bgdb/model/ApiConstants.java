@@ -3,7 +3,6 @@ package com.example.android.bgdb.model;
 /**
  * Provides access to API request variables.
  */
-
 public class ApiConstants {
 
     public static final String BASE_BGG_URL = "https://www.boardgamegeek.com/";

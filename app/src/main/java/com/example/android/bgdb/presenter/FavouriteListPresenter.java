@@ -1,10 +1,12 @@
 package com.example.android.bgdb.presenter;
 
-import android.database.Cursor;
-import android.support.v4.app.LoaderManager;
+import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.view.ContextWrapper;
+
+import java.util.List;
 
 public interface FavouriteListPresenter {
 
-    void createLoader(LoaderManager loaderManager);
-    void onLoadFinished(Cursor cursor);
+    void createLoader(ContextWrapper contextWrapper);
+    void onLoadFinished(List<BoardGame> boardGames);
 }

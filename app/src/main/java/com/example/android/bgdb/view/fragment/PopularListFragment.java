@@ -4,25 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.presenter.PopularListPresenter;
 import com.example.android.bgdb.presenter.PopularListPresenterImpl;
 import com.example.android.bgdb.model.SearchType;
-import com.example.android.bgdb.view.adapter.BoardGameOnClickHandler;
 import com.example.android.bgdb.view.adapter.PopularListAdapter;
 
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -33,18 +24,9 @@ import butterknife.ButterKnife;
  * Use the {@link PopularListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PopularListFragment extends Fragment implements
-        PopularListView,
-        BoardGameOnClickHandler {
+public class PopularListFragment extends BaseViewImpl {
 
     private OnFragmentInteractionListener listener;
-    private PopularListAdapter adapter;
-
-    @BindView(R.id.list_recycler_view)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
 
     public PopularListFragment() {
         // Required empty public constructor
@@ -78,11 +60,9 @@ public class PopularListFragment extends Fragment implements
         PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this);
         popularListPresenter.load(searchType);
 
-        adapter = new PopularListAdapter(getContext(), this);
-        recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                LinearLayoutManager.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        PopularListAdapter adapter = new PopularListAdapter(getContext(), this);
+        onCreateView(adapter);
+
         return view;
     }
 
@@ -102,36 +82,4 @@ public class PopularListFragment extends Fragment implements
         super.onDetach();
         listener = null;
     }
-
-    @Override
-    public void onPreLoad() {
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPostLoad(List<BoardGame> boardGames) {
-        progressBar.setVisibility(View.GONE);
-        if (boardGames == null || boardGames.isEmpty()) {
-            displayEmptyView();
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            updateAdapter(boardGames);
-        }
-    }
-
-    private void updateAdapter(List<BoardGame> boardGames) {
-        adapter.setBoardGames(boardGames);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void displayEmptyView() {
-
-    }
-
-    @Override
-    public void onClick(BoardGame boardGame) {
-
-    }
-
 }

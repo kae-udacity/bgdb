@@ -3,7 +3,6 @@
     package="com.example.android.bgdb">
 
     <application
-        android:name=".view.BoardGameApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,7 +19,7 @@
         
         <provider
             android:authorities="@string/authority"
-            android:name=".presenter.database.BoardGameContentProvider"
+            android:name=".model.database.BoardGameContentProvider"
             android:exported="false" />
     </application>
 

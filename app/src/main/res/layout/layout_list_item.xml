@@ -6,13 +6,21 @@
     android:layout_height="@dimen/list_item_height"
     android:layout_margin="@dimen/list_item_margin">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/list_item_guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
     <TextView
         android:id="@+id/text_view_name"
         style="@style/TextViewNameStyle"
-        app:layout_constraintBottom_toTopOf="@id/text_view_year"
+        app:layout_constraintBottom_toTopOf="@id/list_item_guideline_horizontal"
         app:layout_constraintEnd_toStartOf="@id/image_view_thumbnail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:text="board game name" />
 
     <TextView
@@ -20,12 +28,14 @@
         style="@style/TextViewYearStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_name"
+        app:layout_constraintTop_toBottomOf="@id/list_item_guideline_horizontal"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="4444" />
 
     <ImageView
         android:id="@+id/image_view_thumbnail"
         style="@style/ImageViewThumbnailStyle"
+        android:contentDescription="@string/thumbnail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_view_name"
