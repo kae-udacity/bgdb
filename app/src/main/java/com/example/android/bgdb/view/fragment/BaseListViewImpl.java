@@ -1,8 +1,10 @@
 package com.example.android.bgdb.view.fragment;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -19,11 +21,12 @@ import butterknife.BindView;
 /**
  * Provides the base view for a list fragment.
  */
-public abstract class BaseViewImpl extends Fragment implements
-        BaseView,
+public abstract class BaseListViewImpl extends Fragment implements
+        BaseListView,
         BoardGameOnClickHandler {
 
     private ListAdapter adapter;
+    private RecyclerView.SmoothScroller smoothScroller;
 
     @BindView(R.id.list_recycler_view)
     RecyclerView recyclerView;
@@ -39,6 +42,15 @@ public abstract class BaseViewImpl extends Fragment implements
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        Context context = getContext();
+        if (context != null) {
+            smoothScroller = new LinearSmoothScroller(context) {
+                @Override protected int getVerticalSnapPreference() {
+                    return LinearSmoothScroller.SNAP_TO_START;
+                }
+            };
+        }
     }
 
     @Override
@@ -65,6 +77,17 @@ public abstract class BaseViewImpl extends Fragment implements
 
     private void displayEmptyView() {
 
+    }
+
+    public void resetScrollPosition() {
+        smoothScroller.setTargetPosition(0);
+        LinearLayoutManager layoutManager =
+                (LinearLayoutManager) recyclerView.getLayoutManager();
+        layoutManager.startSmoothScroll(smoothScroller);
+    }
+
+    public int getScrollOffset() {
+        return recyclerView.computeVerticalScrollOffset();
     }
 
     @Override

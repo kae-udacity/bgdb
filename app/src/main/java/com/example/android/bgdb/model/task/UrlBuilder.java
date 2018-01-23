@@ -3,7 +3,6 @@ package com.example.android.bgdb.model.task;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.bgdb.model.ApiConstants;
 import com.example.android.bgdb.model.SearchType;
 
 import java.net.MalformedURLException;
@@ -15,6 +14,12 @@ import java.net.URL;
 class UrlBuilder {
 
     private static final String TAG = UrlBuilder.class.getSimpleName();
+    private static final String BASE_BGG_URL = "https://www.boardgamegeek.com/";
+    private static final String API = "xmlapi2";
+    private static final String HOT = "hot";
+    private static final String BROWSE = "browse";
+    private static final String TYPE = "type";
+    private static final String BOARD_GAME = "boardgame";
 
     private UrlBuilder() {
 
@@ -36,19 +41,19 @@ class UrlBuilder {
     }
 
     private static Uri getUri(SearchType searchType) {
-        Uri uri = Uri.parse(ApiConstants.BASE_BGG_URL);
+        Uri uri = Uri.parse(BASE_BGG_URL);
         switch (searchType) {
             case HOT:
                 uri = uri.buildUpon()
-                        .appendPath(ApiConstants.API)
-                        .appendPath(ApiConstants.HOT)
-                        .appendQueryParameter(ApiConstants.TYPE, ApiConstants.BOARD_GAME)
+                        .appendPath(API)
+                        .appendPath(HOT)
+                        .appendQueryParameter(TYPE, BOARD_GAME)
                         .build();
                 break;
             case TOP:
                 uri = uri.buildUpon()
-                        .appendPath(ApiConstants.BROWSE)
-                        .appendPath(ApiConstants.BOARD_GAME)
+                        .appendPath(BROWSE)
+                        .appendPath(BOARD_GAME)
                         .build();
                 break;
             default:

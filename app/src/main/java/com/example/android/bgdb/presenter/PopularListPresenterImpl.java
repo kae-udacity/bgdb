@@ -3,6 +3,7 @@ package com.example.android.bgdb.presenter;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.model.task.BoardGameAsyncTask;
+import com.example.android.bgdb.view.fragment.BaseListView;
 import com.example.android.bgdb.view.fragment.BaseView;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.List;
  */
 public class PopularListPresenterImpl implements PopularListPresenter {
 
-    private BaseView baseView;
+    private BaseListView popularListView;
+    private BaseView boardGameView;
 
-    public PopularListPresenterImpl(BaseView baseView) {
-        this.baseView = baseView;
+    public PopularListPresenterImpl(BaseListView popularListView, BaseView boardGameView) {
+        this.popularListView = popularListView;
+        this.boardGameView = boardGameView;
     }
 
     @Override
@@ -27,11 +30,11 @@ public class PopularListPresenterImpl implements PopularListPresenter {
 
     @Override
     public void onPreLoad() {
-        baseView.onPreLoad();
+        popularListView.onPreLoad();
     }
 
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
-        baseView.onPostLoad(boardGames);
+        boardGameView.onPostLoad(boardGames);
     }
 }

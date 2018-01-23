@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +26,10 @@ import butterknife.ButterKnife;
  * Use the {@link PopularListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PopularListFragment extends BaseViewImpl {
+public class PopularListFragment extends BaseListViewImpl {
 
     private OnFragmentInteractionListener listener;
+    private BoardGameFragment boardGameFragment;
 
     public PopularListFragment() {
         // Required empty public constructor
@@ -38,10 +41,11 @@ public class PopularListFragment extends BaseViewImpl {
      *
      * @return A new instance of fragment PopularListFragment.
      */
-    public static PopularListFragment newInstance(Context context, SearchType searchType) {
+    public static PopularListFragment newInstance(Context context, SearchType searchType, int boardGameTagId) {
         PopularListFragment fragment = new PopularListFragment();
         Bundle args = new Bundle();
         args.putSerializable(context.getString(R.string.search_type), searchType);
+        args.putInt(context.getString(R.string.board_game_tag_id), boardGameTagId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,17 +56,49 @@ public class PopularListFragment extends BaseViewImpl {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
-        Bundle args = getArguments();
-        SearchType searchType = null;
-        if (args != null && args.containsKey(getString(R.string.search_type))) {
-            searchType = (SearchType) args.get(getString(R.string.search_type));
-        }
-        PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this);
-        popularListPresenter.load(searchType);
 
         PopularListAdapter adapter = new PopularListAdapter(getContext(), this);
         onCreateView(adapter);
 
+        Bundle args = getArguments();
+        SearchType searchType = null;
+        int boardGameTagId = -1;
+        if (args != null) {
+            if (args.containsKey(getString(R.string.search_type))) {
+                searchType = (SearchType) args.get(getString(R.string.search_type));
+            }
+
+            if (args.containsKey(getString(R.string.board_game_tag_id))) {
+                boardGameTagId = args.getInt(getString(R.string.board_game_tag_id));
+            }
+        }
+
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            String boardGameFragmentTag = getString(boardGameTagId);
+            // Check to see if we have retained the worker fragment.
+            boardGameFragment = (BoardGameFragment)
+                    fragmentManager.findFragmentByTag(boardGameFragmentTag);
+
+            // If not retained (or first time running), we need to create it.
+            if (boardGameFragment == null) {
+                boardGameFragment = BoardGameFragment.newInstance();
+                // Tell it who it is working with.
+                fragmentManager.beginTransaction()
+                        .add(boardGameFragment, boardGameFragmentTag)
+                        .commit();
+            }
+
+            boardGameFragment.setTargetFragment(this, 1);
+            if (boardGameFragment.getBoardGames() == null
+                    || boardGameFragment.getBoardGames().isEmpty()) {
+                PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this, boardGameFragment);
+                popularListPresenter.load(searchType);
+            } else {
+                onPostLoad(boardGameFragment.getBoardGames());
+            }
+        }
         return view;
     }
 
@@ -81,5 +117,6 @@ public class PopularListFragment extends BaseViewImpl {
     public void onDetach() {
         super.onDetach();
         listener = null;
+        boardGameFragment.setTargetFragment(null, 1);
     }
 }

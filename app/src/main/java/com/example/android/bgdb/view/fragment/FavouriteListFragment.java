@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  * Use the {@link FavouriteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavouriteListFragment extends BaseViewImpl implements FavouriteListView {
+public class FavouriteListFragment extends BaseListViewImpl implements FavouriteListView {
 
     private OnFragmentInteractionListener listener;
 
