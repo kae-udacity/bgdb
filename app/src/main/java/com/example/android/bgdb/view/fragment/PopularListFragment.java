@@ -28,6 +28,9 @@ import butterknife.ButterKnife;
  */
 public class PopularListFragment extends BaseListViewImpl {
 
+    private static final String SEARCH_TYPE = "searchType";
+    private static final String BOARD_GAME_TAG_ID = "boardGameTagId";
+
     private OnFragmentInteractionListener listener;
     private BoardGameFragment boardGameFragment;
 
@@ -41,11 +44,11 @@ public class PopularListFragment extends BaseListViewImpl {
      *
      * @return A new instance of fragment PopularListFragment.
      */
-    public static PopularListFragment newInstance(Context context, SearchType searchType, int boardGameTagId) {
+    public static PopularListFragment newInstance(SearchType searchType, int boardGameTagId) {
         PopularListFragment fragment = new PopularListFragment();
         Bundle args = new Bundle();
-        args.putSerializable(context.getString(R.string.search_type), searchType);
-        args.putInt(context.getString(R.string.board_game_tag_id), boardGameTagId);
+        args.putSerializable(SEARCH_TYPE, searchType);
+        args.putInt(BOARD_GAME_TAG_ID, boardGameTagId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,26 +64,27 @@ public class PopularListFragment extends BaseListViewImpl {
         onCreateView(adapter);
 
         Bundle args = getArguments();
-        SearchType searchType = null;
-        int boardGameTagId = -1;
-        if (args != null) {
-            if (args.containsKey(getString(R.string.search_type))) {
-                searchType = (SearchType) args.get(getString(R.string.search_type));
-            }
-
-            if (args.containsKey(getString(R.string.board_game_tag_id))) {
-                boardGameTagId = args.getInt(getString(R.string.board_game_tag_id));
-            }
+        int boardGameTagId = getBoardGameTagId(args);
+        String boardGameFragmentTag = getString(boardGameTagId);
+        setUpBoardGameFragment(boardGameFragmentTag);
+        if (boardGameFragment.getBoardGames() == null
+                || boardGameFragment.getBoardGames().isEmpty()) {
+            SearchType searchType = getSearchType(args);
+            PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this, boardGameFragment);
+            popularListPresenter.load(searchType);
+        } else {
+            onPostLoad(boardGameFragment.getBoardGames());
         }
+        return view;
+    }
 
+    private void setUpBoardGameFragment(String boardGameFragmentTag) {
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            String boardGameFragmentTag = getString(boardGameTagId);
             // Check to see if we have retained the worker fragment.
             boardGameFragment = (BoardGameFragment)
                     fragmentManager.findFragmentByTag(boardGameFragmentTag);
-
             // If not retained (or first time running), we need to create it.
             if (boardGameFragment == null) {
                 boardGameFragment = BoardGameFragment.newInstance();
@@ -89,17 +93,25 @@ public class PopularListFragment extends BaseListViewImpl {
                         .add(boardGameFragment, boardGameFragmentTag)
                         .commit();
             }
-
             boardGameFragment.setTargetFragment(this, 1);
-            if (boardGameFragment.getBoardGames() == null
-                    || boardGameFragment.getBoardGames().isEmpty()) {
-                PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this, boardGameFragment);
-                popularListPresenter.load(searchType);
-            } else {
-                onPostLoad(boardGameFragment.getBoardGames());
+        }
+    }
+
+    private int getBoardGameTagId(Bundle args) {
+        int boardGameTagId = -1;
+        if (args != null) {
+            if (args.containsKey(BOARD_GAME_TAG_ID)) {
+                boardGameTagId = args.getInt(BOARD_GAME_TAG_ID);
             }
         }
-        return view;
+        return boardGameTagId;
+    }
+
+    private SearchType getSearchType(Bundle args) {
+        if (args != null && args.containsKey(SEARCH_TYPE)) {
+            return (SearchType) args.get(SEARCH_TYPE);
+        }
+        return null;
     }
 
     @Override

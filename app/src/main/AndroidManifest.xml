@@ -16,10 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <provider
-            android:authorities="@string/authority"
             android:name=".model.database.BoardGameContentProvider"
+            android:authorities="@string/authority"
             android:exported="false" />
     </application>
 
