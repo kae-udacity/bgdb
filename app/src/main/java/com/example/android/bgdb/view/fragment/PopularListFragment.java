@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
+import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.presenter.PopularListPresenter;
 import com.example.android.bgdb.presenter.PopularListPresenterImpl;
-import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.view.adapter.PopularListAdapter;
 
 import butterknife.ButterKnife;
@@ -61,7 +61,7 @@ public class PopularListFragment extends BaseListViewImpl {
         ButterKnife.bind(this, view);
 
         PopularListAdapter adapter = new PopularListAdapter(getContext(), this);
-        onCreateView(adapter);
+        onCreate(adapter);
 
         Bundle args = getArguments();
         int boardGameTagId = getBoardGameTagId(args);

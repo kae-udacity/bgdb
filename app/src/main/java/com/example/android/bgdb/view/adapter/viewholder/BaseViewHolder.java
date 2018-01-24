@@ -28,6 +28,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         super(itemView);
         this.adapter = adapter;
         ButterKnife.bind(this, itemView);
+        itemView.setOnClickListener(this);
     }
 
     public TextView getTextViewName() {

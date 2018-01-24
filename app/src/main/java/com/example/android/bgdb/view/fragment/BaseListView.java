@@ -7,6 +7,5 @@ import com.example.android.bgdb.view.adapter.ListAdapter;
  */
 public interface BaseListView extends BaseView {
 
-    void onCreateView(ListAdapter adapter);
-    void onPreLoad();
+    void onCreate(ListAdapter adapter);
 }

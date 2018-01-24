@@ -4,18 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.presenter.FavouriteListPresenter;
-import com.example.android.bgdb.presenter.FavouriteListPresenterImpl;
-import com.example.android.bgdb.view.ContextWrapper;
-import com.example.android.bgdb.view.adapter.ListAdapter;
+import com.example.android.bgdb.model.BoardGame;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,14 +21,17 @@ import butterknife.ButterKnife;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FavouriteListFragment#newInstance} factory method to
+ * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavouriteListFragment extends BaseListViewImpl implements FavouriteListView {
+public class DetailFragment extends Fragment {
 
     private OnFragmentInteractionListener listener;
 
-    public FavouriteListFragment() {
+    @BindView(R.id.detail_banner_image)
+    ImageView detailBannerImage;
+
+    public DetailFragment() {
         // Required empty public constructor
     }
 
@@ -38,25 +39,18 @@ public class FavouriteListFragment extends BaseListViewImpl implements Favourite
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment FavouriteListFragment.
+     * @return A new instance of fragment DetailFragment.
      */
-    public static FavouriteListFragment newInstance() {
-        return new FavouriteListFragment();
+    public static DetailFragment newInstance() {
+        return new DetailFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
-
-        FavouriteListPresenter presenter = new FavouriteListPresenterImpl(FavouriteListFragment.this);
-        ContextWrapper contextWrapper = new ContextWrapper(getContext());
-        presenter.createLoader(contextWrapper);
-
-        ListAdapter adapter = new ListAdapter(getContext(), this);
-        onCreate(adapter);
         return view;
     }
 
@@ -77,12 +71,11 @@ public class FavouriteListFragment extends BaseListViewImpl implements Favourite
         listener = null;
     }
 
-    @Override
-    public LoaderManager getSupportLoaderManager() {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity == null) {
-            return null;
+    public void updateViews(BoardGame boardGame) {
+        Context context = getContext();
+
+        if (context != null) {
+            Glide.with(getContext()).load(boardGame.getBannerUrl()).into(detailBannerImage);
         }
-        return activity.getSupportLoaderManager();
     }
 }

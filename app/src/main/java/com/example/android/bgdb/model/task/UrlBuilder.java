@@ -20,13 +20,16 @@ class UrlBuilder {
     private static final String BROWSE = "browse";
     private static final String TYPE = "type";
     private static final String BOARD_GAME = "boardgame";
+    private static final String THING = "thing";
+    private static final String ID = "id";
+    private static final String STATS = "stats";
 
     private UrlBuilder() {
 
     }
 
-    static URL getUrl(SearchType searchType) {
-        Uri uri = getUri(searchType);
+    static URL getListUrl(SearchType searchType) {
+        Uri uri = getListUri(searchType);
         if (uri == null) {
             return null;
         }
@@ -40,7 +43,7 @@ class UrlBuilder {
         return url;
     }
 
-    private static Uri getUri(SearchType searchType) {
+    private static Uri getListUri(SearchType searchType) {
         Uri uri = Uri.parse(BASE_BGG_URL);
         switch (searchType) {
             case HOT:
@@ -60,5 +63,30 @@ class UrlBuilder {
                 return null;
         }
         return uri;
+    }
+
+    static URL getDetailUrl(String apiId) {
+        Uri uri = getDetailUri(apiId);
+        if (uri == null) {
+            return null;
+        }
+        URL url;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Error getting url.", e);
+            return null;
+        }
+        return url;
+    }
+
+    private static Uri getDetailUri(String apiId) {
+        return Uri.parse(BASE_BGG_URL)
+                .buildUpon()
+                .appendPath(API)
+                .appendPath(THING)
+                .appendQueryParameter(ID, apiId)
+                .appendQueryParameter(STATS, "1")
+                .build();
     }
 }

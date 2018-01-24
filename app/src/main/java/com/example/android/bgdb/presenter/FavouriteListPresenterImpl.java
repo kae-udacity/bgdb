@@ -30,7 +30,12 @@ public class FavouriteListPresenterImpl implements FavouriteListPresenter {
     }
 
     @Override
-    public void onLoadFinished(List<BoardGame> boardGames) {
+    public void onPreLoad() {
+        favouriteListView.onPreLoad();
+    }
+
+    @Override
+    public void onPostLoad(List<BoardGame> boardGames) {
         favouriteListView.onPostLoad(boardGames);
     }
 }

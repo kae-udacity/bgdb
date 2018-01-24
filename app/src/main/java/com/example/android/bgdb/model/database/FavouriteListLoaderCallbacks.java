@@ -31,6 +31,7 @@ public class FavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        presenter.onPreLoad();
         return new CursorLoader(
                 contextWrapper.getContext(),
                 BoardGameEntry.CONTENT_URI,
@@ -40,7 +41,7 @@ public class FavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor == null || cursor.getCount() == 0) {
-            presenter.onLoadFinished(null);
+            presenter.onPostLoad(null);
             return;
         }
 
@@ -64,7 +65,7 @@ public class FavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
             boardGames.add(boardGame);
         }
         cursor.close();
-        presenter.onLoadFinished(boardGames);
+        presenter.onPostLoad(boardGames);
     }
 
     @Override

@@ -74,4 +74,9 @@ public class BoardGameFragment extends Fragment implements BaseView {
             listFragment.onPostLoad(boardGames);
         }
     }
+
+    @Override
+    public void onPreLoad() {
+
+    }
 }

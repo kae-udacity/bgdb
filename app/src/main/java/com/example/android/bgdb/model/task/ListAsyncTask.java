@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * Retrieves board game data from URL and returns a {@link List} of {@link BoardGame} objects.
  */
-public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> {
+public class ListAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> {
 
-    private static final String TAG = BoardGameAsyncTask.class.getSimpleName();
+    private static final String TAG = ListAsyncTask.class.getSimpleName();
     private PopularListPresenter popularListPresenter;
 
-    public BoardGameAsyncTask(PopularListPresenter popularListPresenter) {
+    public ListAsyncTask(PopularListPresenter popularListPresenter) {
         this.popularListPresenter = popularListPresenter;
     }
 
@@ -34,7 +34,7 @@ public class BoardGameAsyncTask extends AsyncTask<SearchType, Void, List<BoardGa
     @Override
     protected List<BoardGame> doInBackground(SearchType... searchTypes) {
         SearchType searchType = searchTypes[0];
-        URL url = UrlBuilder.getUrl(searchType);
+        URL url = UrlBuilder.getListUrl(searchType);
         try {
             // get url and open HTTP connection
             Document document = Jsoup.parse(url, 30000);

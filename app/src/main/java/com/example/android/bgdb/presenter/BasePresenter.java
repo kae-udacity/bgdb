@@ -1,13 +1,10 @@
-package com.example.android.bgdb.view.fragment;
+package com.example.android.bgdb.presenter;
 
 import com.example.android.bgdb.model.BoardGame;
 
 import java.util.List;
 
-/**
- * Must be implemented to communicate with presenter.
- */
-public interface BaseView {
+public interface BasePresenter {
 
     void onPreLoad();
     void onPostLoad(List<BoardGame> boardGames);

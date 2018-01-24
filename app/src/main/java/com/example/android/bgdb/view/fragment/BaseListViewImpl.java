@@ -1,6 +1,7 @@
 package com.example.android.bgdb.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.view.activity.DetailActivity;
 import com.example.android.bgdb.view.adapter.ListAdapter;
 import com.example.android.bgdb.view.adapter.ListAdapter.BoardGameOnClickHandler;
 
@@ -31,11 +33,11 @@ public abstract class BaseListViewImpl extends Fragment implements
     @BindView(R.id.list_recycler_view)
     RecyclerView recyclerView;
 
-    @BindView(R.id.progress_bar)
+    @BindView(R.id.list_progress_bar)
     ProgressBar progressBar;
 
     @Override
-    public void onCreateView(ListAdapter adapter) {
+    public void onCreate(ListAdapter adapter) {
         this.adapter = adapter;
 
         recyclerView.setAdapter(adapter);
@@ -92,6 +94,8 @@ public abstract class BaseListViewImpl extends Fragment implements
 
     @Override
     public void onClick(BoardGame boardGame) {
-
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra(getString(R.string.board_game), boardGame);
+        startActivity(intent);
     }
 }

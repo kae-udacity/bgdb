@@ -23,6 +23,9 @@ class Parser {
     private static final String RANK = "rank";
     private static final String YEAR_PUBLISHED = "yearpublished";
     private static final String THUMBNAIL = "thumbnail";
+    private static final String IMAGE = "image";
+    private static final String AVERAGE = "average";
+    private static final String DESCRIPTION = "description";
     private static final String COLLECTION_OBJECT_NAME = ".collection_objectname a";
     private static final String COLLECTION_YEAR = ".collection_objectname span[class=smallerfont dull]";
     private static final String COLLECTION_THUMBNAIL = ".collection_thumbnail img[src]";
@@ -58,14 +61,24 @@ class Parser {
 
         BoardGame boardGame;
         for (Element element : elements) {
-            boardGame = getBoardGame(element);
+            boardGame = getBoardGameFromHtml(element);
             boardGames.add(boardGame);
         }
         return boardGames;
     }
 
+    static void getBoardGameDetailFromXml(BoardGame boardGame, Document document) {
+        Element element = document.select(ITEM).first();
+
+        if (element != null) {
+            boardGame.setBannerUrl(element.select(IMAGE).text());
+            boardGame.setRating(element.select(AVERAGE).val());
+            boardGame.setDescription(element.select(DESCRIPTION).text());
+        }
+    }
+
     @NonNull
-    private static BoardGame getBoardGame(Element element) {
+    private static BoardGame getBoardGameFromHtml(Element element) {
         BoardGame boardGame = new BoardGame();
         Elements name = element.select(COLLECTION_OBJECT_NAME);
         boardGame.setId(getId(name));

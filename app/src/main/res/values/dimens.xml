@@ -27,4 +27,6 @@
     <dimen name="list_thumbnail_margin">8dp</dimen>
 
     <dimen name="bottom_navigation_width">0dp</dimen>
+
+    <dimen name="detail_image_height">304dp</dimen>
 </resources>
