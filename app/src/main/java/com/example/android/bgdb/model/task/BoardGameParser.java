@@ -9,6 +9,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ class BoardGameParser {
     private static final String NAME_FRIENDLY = "friendlyname";
     private static final String RANK_BOARD_GAME = "Board Game Rank";
     private static final String RANK_OVERALL = "Overall Rank";
+    private static final String NO_RATING = "--";
     private static final String AVERAGE = "average";
     private static final String DESCRIPTION = "description";
     private static final String COLLECTION_OBJECT_NAME = ".collection_objectname a";
@@ -79,9 +82,30 @@ class BoardGameParser {
         if (element != null) {
             boardGame.setBannerUrl(element.select(IMAGE).text());
             boardGame.setRanks(getRanks(element));
-            boardGame.setRating(element.select(AVERAGE).val());
+            boardGame.setRating(getRating(element));
             boardGame.setDescription(getDescription(element));
         }
+    }
+
+    private static String getRating(Element element) {
+        double rating = Double.parseDouble(element.select(AVERAGE).val());
+        if (rating > 0) {
+            rating = round(rating);
+        }
+
+        if (rating == 10) {
+            return String.valueOf((int) rating);
+        } else if (rating > 0) {
+            return String.valueOf(rating);
+        } else {
+            return NO_RATING;
+        }
+    }
+
+    private static double round(double value) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     private static String getRanks(Element element) {
