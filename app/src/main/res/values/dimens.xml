@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="body_regular_text_size">14sp</dimen>
+
     <dimen name="toolbar_container_width">0dp</dimen>
     <dimen name="toolbar_container_corner_radius">0dp</dimen>
     <dimen name="toolbar_container_elevation">4dp</dimen>
@@ -7,26 +9,30 @@
     <dimen name="list_container_width">0dp</dimen>
     <dimen name="list_container_height">0dp</dimen>
 
-    <dimen name="list_item_height">72dp</dimen>
-    <dimen name="list_item_margin">16dp</dimen>
+    <dimen name="list_item_height">56dp</dimen>
+    <dimen name="list_item_margin">8dp</dimen>
+    <dimen name="list_item_padding">16dp</dimen>
 
     <dimen name="list_rank_height">0dp</dimen>
-    <dimen name="list_rank_text_size">16sp</dimen>
+    <dimen name="list_rank_text_size">14sp</dimen>
 
     <dimen name="list_name_width">0dp</dimen>
     <dimen name="list_name_height">0dp</dimen>
     <dimen name="list_name_margin">8dp</dimen>
-    <dimen name="list_name_text_size">16sp</dimen>
+    <dimen name="list_name_text_size">14sp</dimen>
 
     <dimen name="list_year_height">0dp</dimen>
     <dimen name="list_year_margin">8dp</dimen>
-    <dimen name="list_year_text_size">14sp</dimen>
 
-    <dimen name="list_thumbnail_width">72dp</dimen>
+    <dimen name="list_thumbnail_width">56dp</dimen>
     <dimen name="list_thumbnail_height">0dp</dimen>
-    <dimen name="list_thumbnail_margin">8dp</dimen>
+    <dimen name="list_thumbnail_margin">16dp</dimen>
 
     <dimen name="bottom_navigation_width">0dp</dimen>
 
-    <dimen name="detail_image_height">304dp</dimen>
+    <dimen name="toolbar_expanded_title_margin">16dp</dimen>
+    <dimen name="detail_image_height">280dp</dimen>
+    <dimen name="detail_body_margin">16dp</dimen>
+    <dimen name="detail_title_height">48dp</dimen>
+    <dimen name="detail_title_margin_top">8dp</dimen>
 </resources>

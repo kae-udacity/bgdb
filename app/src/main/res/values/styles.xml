@@ -11,7 +11,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="TextViewNameStyle">
+    <style name="TextViewName">
         <item name="android:layout_width">@dimen/list_name_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">bottom</item>
@@ -21,15 +21,18 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="TextViewYearStyle">
+    <style name="TextViewBodyRegular">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">top</item>
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">@dimen/list_year_text_size</item>
+        <item name="android:textSize">@dimen/body_regular_text_size</item>
     </style>
 
-    <style name="ImageViewThumbnailStyle">
+    <style name="ListTextViewYear" parent="TextViewBodyRegular">
+        <item name="android:gravity">top</item>
+    </style>
+
+    <style name="ImageViewThumbnail">
         <item name="android:layout_width">@dimen/list_thumbnail_width</item>
         <item name="android:layout_height">@dimen/list_thumbnail_height</item>
         <item name="android:layout_marginLeft">@dimen/list_thumbnail_margin</item>

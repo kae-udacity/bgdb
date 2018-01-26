@@ -17,4 +17,6 @@
     <string name="favourites">Favourites</string>
     <string name="thumbnail">thumbnail</string>
     <string name="banner_image">banner image</string>
+    <string name="description">Description</string>
+    <string name="favourite">favourite</string>
 </resources>

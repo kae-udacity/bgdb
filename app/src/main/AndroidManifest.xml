@@ -18,11 +18,18 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".view.activity.DetailActivity"
+            android:parentActivityName=".view.activity.MainActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.MainActivity" />
+        </activity>
+
         <provider
             android:name=".model.database.BoardGameContentProvider"
             android:authorities="@string/authority"
             android:exported="false" />
-        <activity android:name=".view.activity.DetailActivity"/>
     </application>
-
 </manifest>

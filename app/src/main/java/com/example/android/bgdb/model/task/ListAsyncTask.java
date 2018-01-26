@@ -40,9 +40,9 @@ public class ListAsyncTask extends AsyncTask<SearchType, Void, List<BoardGame>> 
             Document document = Jsoup.parse(url, 30000);
             List<BoardGame> boardGames = null;
             if (searchType == SearchType.HOT) {
-                boardGames = Parser.getListFromXml(document);
+                boardGames = BoardGameParser.getListFromXml(document);
             } else if (searchType == SearchType.TOP) {
-                boardGames = Parser.getListFromHtml(document);
+                boardGames = BoardGameParser.getListFromHtml(document);
             }
             return boardGames;
         } catch(IOException e) {

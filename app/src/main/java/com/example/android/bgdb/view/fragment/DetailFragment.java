@@ -1,13 +1,18 @@
 package com.example.android.bgdb.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.bgdb.R;
@@ -31,6 +36,18 @@ public class DetailFragment extends Fragment {
     @BindView(R.id.detail_banner_image)
     ImageView detailBannerImage;
 
+    @BindView(R.id.detail_year)
+    TextView detailYear;
+
+    @BindView(R.id.detail_ranks)
+    TextView detailRanks;
+
+    @BindView(R.id.detail_description)
+    TextView detailDescription;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -51,7 +68,26 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+        }
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.onBackPressed();
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -77,5 +113,9 @@ public class DetailFragment extends Fragment {
         if (context != null) {
             Glide.with(getContext()).load(boardGame.getBannerUrl()).into(detailBannerImage);
         }
+        toolbar.setTitle(boardGame.getName());
+        detailYear.setText(boardGame.getYear());
+        detailRanks.setText(boardGame.getRanks());
+        detailDescription.setText(boardGame.getDescription());
     }
 }

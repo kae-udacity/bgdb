@@ -13,6 +13,7 @@ public class BoardGame implements Parcelable {
     private String description;
     private String year;
     private String rank;
+    private String ranks;
     private String rating;
     private String thumbnailUrl;
     private byte[] thumbnailBlob;
@@ -84,6 +85,14 @@ public class BoardGame implements Parcelable {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    public String getRanks() {
+        return ranks;
+    }
+
+    public void setRanks(String ranks) {
+        this.ranks = ranks;
     }
 
     public String getRating() {

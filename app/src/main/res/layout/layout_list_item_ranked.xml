@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
-    android:layout_margin="@dimen/list_item_margin">
+    android:layout_marginTop="@dimen/list_item_margin"
+    android:layout_marginBottom="@dimen/list_item_margin"
+    android:paddingLeft="@dimen/list_item_padding"
+    android:paddingRight="@dimen/list_item_padding">
 
     <android.support.constraint.Guideline
         android:id="@+id/list_item_guideline_vertical"
@@ -12,13 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/list_item_guideline_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/text_view_rank"
@@ -35,30 +31,28 @@
 
     <TextView
         android:id="@+id/text_view_name"
-        style="@style/TextViewNameStyle"
+        style="@style/TextViewName"
         android:layout_marginLeft="@dimen/list_name_margin"
         android:layout_marginStart="@dimen/list_name_margin"
-        app:layout_constraintBottom_toTopOf="@+id/list_item_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_year"
         app:layout_constraintEnd_toStartOf="@id/image_view_thumbnail"
         app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         tools:text="board game name" />
 
     <TextView
         android:id="@+id/text_view_year"
-        style="@style/TextViewYearStyle"
+        style="@style/ListTextViewYear"
         android:layout_marginLeft="@dimen/list_year_margin"
         android:layout_marginStart="@dimen/list_year_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/list_item_guideline_horizontal"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name"
         tools:text="4444" />
 
     <ImageView
         android:id="@+id/image_view_thumbnail"
-        style="@style/ImageViewThumbnailStyle"
+        style="@style/ImageViewThumbnail"
         android:contentDescription="@string/thumbnail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
