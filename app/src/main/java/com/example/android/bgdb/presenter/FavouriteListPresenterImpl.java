@@ -1,11 +1,13 @@
 package com.example.android.bgdb.presenter;
 
 import android.content.CursorLoader;
+import android.support.v4.app.LoaderManager;
 
 import com.example.android.bgdb.model.BoardGame;
-import com.example.android.bgdb.model.database.FavouriteListLoaderCallbacks;
+import com.example.android.bgdb.model.database.QueryFavouriteListLoaderCallbacks;
 import com.example.android.bgdb.view.ContextWrapper;
-import com.example.android.bgdb.view.fragment.FavouriteListView;
+import com.example.android.bgdb.view.fragment.BaseListView;
+import com.example.android.bgdb.view.fragment.LoaderManagerView;
 
 import java.util.List;
 
@@ -17,25 +19,33 @@ public class FavouriteListPresenterImpl implements FavouriteListPresenter {
 
     private static final int FAVOURITES_LOADER_ID = 201;
 
-    private FavouriteListView favouriteListView;
+    private LoaderManagerView loaderManagerView;
+    private BaseListView baseListView;
 
-    public FavouriteListPresenterImpl(FavouriteListView favouriteListView) {
-        this.favouriteListView = favouriteListView;
+    public FavouriteListPresenterImpl(LoaderManagerView loaderManagerView, BaseListView baseListView) {
+        this.loaderManagerView = loaderManagerView;
+        this.baseListView = baseListView;
     }
 
     @Override
-    public void createLoader(ContextWrapper contextWrapper) {
-        favouriteListView.getSupportLoaderManager()
-                .initLoader(FAVOURITES_LOADER_ID, null, new FavouriteListLoaderCallbacks(this, contextWrapper));
+    public void load(ContextWrapper contextWrapper) {
+        QueryFavouriteListLoaderCallbacks callbacks =
+                new QueryFavouriteListLoaderCallbacks(contextWrapper, this);
+        LoaderManager loaderManager = loaderManagerView.getSupportLoaderManager();
+        if (loaderManager.getLoader(FAVOURITES_LOADER_ID) == null) {
+            loaderManager.initLoader(FAVOURITES_LOADER_ID, null, callbacks);
+        } else {
+            loaderManager.restartLoader(FAVOURITES_LOADER_ID, null, callbacks);
+        }
     }
 
     @Override
     public void onPreLoad() {
-        favouriteListView.onPreLoad();
+        baseListView.onPreLoad();
     }
 
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
-        favouriteListView.onPostLoad(boardGames);
+        baseListView.onPostLoad(boardGames);
     }
 }

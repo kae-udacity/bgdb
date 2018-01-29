@@ -5,21 +5,21 @@
     <item
         android:id="@+id/action_the_hotness"
         android:enabled="true"
-        android:icon="@drawable/ic_whatshot_black_24dp"
+        android:icon="@drawable/ic_whatshot_black"
         android:title="@string/the_hotness"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_top_100"
         android:enabled="true"
-        android:icon="@drawable/ic_star_border_black_24dp"
+        android:icon="@drawable/ic_star_border_black"
         android:title="@string/top_100"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_favorites"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:icon="@drawable/ic_favorite_border_black"
         android:title="@string/favourites"
         app:showAsAction="ifRoom" />
 

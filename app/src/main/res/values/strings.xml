@@ -8,10 +8,12 @@
     <string name="top_100_board_game_tag" translatable="false">top100BoardGameTag</string>
     <string name="the_hotness_board_game_tag" translatable="false">theHotnessBoardGameTag</string>
     <string name="favourites_board_game_tag" translatable="false">favouritesBoardGameTag</string>
+    <string name="detail_board_game_fragment_tag" translatable="false">detailBoardGameFragmentTag</string>
     <string name="list_fragment_tag" translatable="false">listFragmentTag</string>
     <string name="main_fragment" translatable="false">mainFragment</string>
     <string name="detail_fragment" translatable="false">detailFragment</string>
     <string name="board_game" translatable="false">boardGame</string>
+    <string name="result_code" translatable="false">resultCode</string>
     <string name="the_hotness">The Hotness</string>
     <string name="top_100">Top 100</string>
     <string name="favourites">Favourites</string>

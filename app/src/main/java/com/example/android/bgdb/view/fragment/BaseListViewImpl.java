@@ -1,7 +1,6 @@
 package com.example.android.bgdb.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
-import com.example.android.bgdb.view.activity.DetailActivity;
 import com.example.android.bgdb.view.adapter.ListAdapter;
 import com.example.android.bgdb.view.adapter.ListAdapter.BoardGameOnClickHandler;
 
@@ -26,6 +24,9 @@ import butterknife.BindView;
 public abstract class BaseListViewImpl extends Fragment implements
         BaseListView,
         BoardGameOnClickHandler {
+
+    static final String SEARCH_TYPE = "searchType";
+    static final String BOARD_GAME_TAG_ID = "boardGameTagId";
 
     private ListAdapter adapter;
     private RecyclerView.SmoothScroller smoothScroller;
@@ -90,12 +91,5 @@ public abstract class BaseListViewImpl extends Fragment implements
 
     public int getScrollOffset() {
         return recyclerView.computeVerticalScrollOffset();
-    }
-
-    @Override
-    public void onClick(BoardGame boardGame) {
-        Intent intent = new Intent(getContext(), DetailActivity.class);
-        intent.putExtra(getString(R.string.board_game), boardGame);
-        startActivity(intent);
     }
 }

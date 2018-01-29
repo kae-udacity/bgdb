@@ -1,6 +1,7 @@
 package com.example.android.bgdb.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
+import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.presenter.PopularListPresenter;
 import com.example.android.bgdb.presenter.PopularListPresenterImpl;
+import com.example.android.bgdb.view.activity.DetailActivity;
 import com.example.android.bgdb.view.adapter.PopularListAdapter;
 
 import butterknife.ButterKnife;
@@ -27,9 +30,6 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class PopularListFragment extends BaseListViewImpl {
-
-    private static final String SEARCH_TYPE = "searchType";
-    private static final String BOARD_GAME_TAG_ID = "boardGameTagId";
 
     private OnFragmentInteractionListener listener;
     private BoardGameFragment boardGameFragment;
@@ -130,5 +130,12 @@ public class PopularListFragment extends BaseListViewImpl {
         super.onDetach();
         listener = null;
         boardGameFragment.setTargetFragment(null, 1);
+    }
+
+    @Override
+    public void onClick(BoardGame boardGame) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra(getString(R.string.board_game), boardGame);
+        startActivity(intent);
     }
 }

@@ -115,8 +115,26 @@ public class BoardGameContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        Context context = getContext();
+        if (context == null) {
+            throw new NullPointerException(INVALID_CONTEXT_VALUE);
+        }
+
+        int match = URI_MATCHER.match(uri);
+        int rowsDeleted;
+        switch (match) {
+            case FAVOURITE_WITH_API_ID:
+                selectionArgs = new String[]{uri.getLastPathSegment()};
+                rowsDeleted = databaseHelper.getReadableDatabase().delete(
+                        BoardGameEntry.TABLE_NAME,
+                        BoardGameEntry.COLUMN_API_ID + context.getString(R.string.parameter_placeholder),
+                        selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException(context.getString(R.string.unknown_uri) + uri);
+        }
+        return rowsDeleted;
     }
 
     @Override

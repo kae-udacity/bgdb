@@ -1,6 +1,8 @@
 package com.example.android.bgdb.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bgdb.R;
+import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.presenter.FavouriteListPresenter;
 import com.example.android.bgdb.presenter.FavouriteListPresenterImpl;
 import com.example.android.bgdb.view.ContextWrapper;
+import com.example.android.bgdb.view.activity.DetailActivity;
 import com.example.android.bgdb.view.adapter.ListAdapter;
 
 import butterknife.ButterKnife;
@@ -26,9 +30,10 @@ import butterknife.ButterKnife;
  * Use the {@link FavouriteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavouriteListFragment extends BaseListViewImpl implements FavouriteListView {
+public class FavouriteListFragment extends BaseListViewImpl implements LoaderManagerView {
 
     private OnFragmentInteractionListener listener;
+    private FavouriteListPresenter presenter;
 
     public FavouriteListFragment() {
         // Required empty public constructor
@@ -40,8 +45,12 @@ public class FavouriteListFragment extends BaseListViewImpl implements Favourite
      *
      * @return A new instance of fragment FavouriteListFragment.
      */
-    public static FavouriteListFragment newInstance() {
-        return new FavouriteListFragment();
+    public static FavouriteListFragment newInstance(int boardGameTagId) {
+        FavouriteListFragment fragment = new FavouriteListFragment();
+        Bundle args = new Bundle();
+        args.putInt(BOARD_GAME_TAG_ID, boardGameTagId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -51,9 +60,10 @@ public class FavouriteListFragment extends BaseListViewImpl implements Favourite
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
-        FavouriteListPresenter presenter = new FavouriteListPresenterImpl(FavouriteListFragment.this);
-        ContextWrapper contextWrapper = new ContextWrapper(getContext());
-        presenter.createLoader(contextWrapper);
+        presenter = new FavouriteListPresenterImpl(
+                FavouriteListFragment.this,
+                FavouriteListFragment.this);
+        presenter.load(new ContextWrapper(getContext()));
 
         ListAdapter adapter = new ListAdapter(getContext(), this);
         onCreate(adapter);
@@ -84,5 +94,20 @@ public class FavouriteListFragment extends BaseListViewImpl implements Favourite
             return null;
         }
         return activity.getSupportLoaderManager();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == getResources().getInteger(R.integer.request_code)
+                && resultCode == Activity.RESULT_OK) {
+            presenter.load(new ContextWrapper(getContext()));
+        }
+    }
+
+    @Override
+    public void onClick(BoardGame boardGame) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra(getString(R.string.board_game), boardGame);
+        startActivityForResult(intent, getResources().getInteger(R.integer.request_code));
     }
 }

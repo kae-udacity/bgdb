@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.view.fragment.BaseListViewImpl;
+import com.example.android.bgdb.view.fragment.FavouriteListFragment;
 import com.example.android.bgdb.view.fragment.PopularListFragment;
 
 /**
@@ -41,10 +42,8 @@ public class BottomNavigationItemSelectedListener implements BottomNavigationVie
                 callback.updateListFragment(context.getString(R.string.top_100), listFragment);
                 break;
             case R.id.action_favorites:
-                listFragment = PopularListFragment.newInstance(
-                        SearchType.TOP,
-                        R.string.top_100_board_game_tag);
-                callback.updateListFragment(context.getString(R.string.top_100), listFragment);
+                listFragment = FavouriteListFragment.newInstance(R.string.favourites_board_game_tag);
+                callback.updateListFragment(context.getString(R.string.favourites), listFragment);
                 break;
         }
         return true;

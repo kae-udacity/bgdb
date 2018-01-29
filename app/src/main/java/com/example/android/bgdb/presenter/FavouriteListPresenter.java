@@ -4,5 +4,5 @@ import com.example.android.bgdb.view.ContextWrapper;
 
 public interface FavouriteListPresenter extends BasePresenter {
 
-    void createLoader(ContextWrapper contextWrapper);
+    void load(ContextWrapper contextWrapper);
 }

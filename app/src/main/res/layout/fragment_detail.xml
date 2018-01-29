@@ -20,6 +20,7 @@
             app:contentScrim="@color/primary"
             app:expandedTitleMarginEnd="@dimen/toolbar_expanded_title_margin_end"
             app:expandedTitleMarginStart="@dimen/toolbar_expanded_title_margin_start"
+            app:expandedTitleMarginBottom="16dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="3">

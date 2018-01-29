@@ -58,6 +58,10 @@ public class BoardGameFragment extends Fragment implements BaseView {
         listener = null;
     }
 
+    public void setBoardGames(List<BoardGame> boardGames) {
+        this.boardGames = boardGames;
+    }
+
     public List<BoardGame> getBoardGames() {
         return boardGames;
     }
@@ -68,7 +72,7 @@ public class BoardGameFragment extends Fragment implements BaseView {
 
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
-        this.boardGames = boardGames;
+        setBoardGames(boardGames);
         BaseListViewImpl listFragment = (BaseListViewImpl) getTargetFragment();
         if (listFragment != null) {
             listFragment.onPostLoad(boardGames);

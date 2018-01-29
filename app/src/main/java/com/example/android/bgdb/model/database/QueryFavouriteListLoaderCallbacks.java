@@ -16,21 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queries the {@link ContentResolver} and returns a {@link Cursor} with data from the
- * board game favourites database.
+ * Creates a loader to query the {@link ContentResolver} and receives a {@link Cursor} with data
+ * from the board game favourites database.
  */
-public class FavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
+public class QueryFavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
 
-    private FavouriteListPresenter presenter;
     private ContextWrapper contextWrapper;
+    private FavouriteListPresenter presenter;
 
-    public FavouriteListLoaderCallbacks(FavouriteListPresenter presenter, ContextWrapper contextWrapper) {
+    public QueryFavouriteListLoaderCallbacks(ContextWrapper contextWrapper, FavouriteListPresenter presenter) {
         this.contextWrapper = contextWrapper;
         this.presenter = presenter;
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
         presenter.onPreLoad();
         return new CursorLoader(
                 contextWrapper.getContext(),
