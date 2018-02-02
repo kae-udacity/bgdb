@@ -62,6 +62,7 @@ public class MasterFragment extends Fragment implements
         ButterKnife.bind(this, view);
         listFragmentTag = getListFragmentTag(savedInstanceState);
         setUpBottomNavigationBar();
+        listener.setToolbarTitle(toolbar, listFragmentTag);
         listener.setUpMasterActionBar(toolbar);
         listener.setUpListFragment(listFragmentTag);
         return view;
@@ -108,6 +109,7 @@ public class MasterFragment extends Fragment implements
     @Override
     public void updateListFragment(BaseListViewImpl listFragment, String listFragmentTag) {
         this.listFragmentTag = listFragmentTag;
+        listener.setToolbarTitle(toolbar, listFragmentTag);
         listener.updateListFragment(listFragment, listFragmentTag);
     }
 

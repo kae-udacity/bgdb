@@ -19,6 +19,13 @@ public abstract class BaseActivity extends AppCompatActivity implements
         MasterFragmentListener {
 
     @Override
+    public void setToolbarTitle(Toolbar toolbar, String listFragmentTag) {
+        if (getResources().getBoolean(R.bool.tablet)) {
+            toolbar.setTitle(listFragmentTag);
+        }
+    }
+
+    @Override
     public void setUpMasterActionBar(Toolbar toolbar) {
         if (getResources().getBoolean(R.bool.tablet)) {
             return;
