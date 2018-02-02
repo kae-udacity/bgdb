@@ -2,10 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
-    android:layout_marginTop="@dimen/list_item_margin"
-    android:layout_marginBottom="@dimen/list_item_margin"
+    android:paddingTop="@dimen/list_item_padding_horizontal"
+    android:paddingBottom="@dimen/list_item_padding_horizontal"
     android:paddingLeft="@dimen/list_item_padding"
     android:paddingRight="@dimen/list_item_padding">
 

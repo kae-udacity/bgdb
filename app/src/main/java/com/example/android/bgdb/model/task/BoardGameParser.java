@@ -40,8 +40,10 @@ class BoardGameParser {
     private static final String COLLECTION_THUMBNAIL = ".collection_thumbnail img[src]";
     private static final String COLLECTION_RANK = ".collection_rank";
     private static final String SRC = "src";
-    private static final String THUMBNAIL_SUFFIX = "_mt";
-    private static final String IMAGE_SUFFIX = "_t";
+    private static final String THUMBNAIL_SUFFIX_MT = "_mt.jpg";
+    private static final String THUMBNAIL_SUFFIX_T = "_t.jpg";
+    private static final String IMAGE_SUFFIX = ".jpg";
+    private static final String IMAGE_SUFFIX_MD = "_md.jpg";
     private static final String HREF = "href";
     private static final String COLLECTION_TABLE = ".collection_table ";
     private static final String ROWS = "tr[id=row_]";
@@ -80,11 +82,16 @@ class BoardGameParser {
         Element element = document.select(ITEM).first();
 
         if (element != null) {
-            boardGame.setBannerUrl(element.select(IMAGE).text());
+            boardGame.setBannerUrl(getBannerUrl(element));
             boardGame.setRanks(getRanks(element));
             boardGame.setRating(getRating(element));
             boardGame.setDescription(getDescription(element));
         }
+    }
+
+    private static String getBannerUrl(Element element) {
+        String src = element.select(IMAGE).text();
+        return src.replace(IMAGE_SUFFIX, IMAGE_SUFFIX_MD);
     }
 
     private static String getRating(Element element) {
@@ -157,7 +164,7 @@ class BoardGameParser {
 
     private static String getThumbnailUrl(Element element) {
         String src = element.select(COLLECTION_THUMBNAIL).attr(SRC);
-        return src.replace(THUMBNAIL_SUFFIX, IMAGE_SUFFIX);
+        return src.replace(THUMBNAIL_SUFFIX_MT, THUMBNAIL_SUFFIX_T);
     }
 
     private static String getId(Elements name) {

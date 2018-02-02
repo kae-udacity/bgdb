@@ -1,6 +1,7 @@
 package com.example.android.bgdb.view.adapter.viewholder;
 
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import butterknife.ButterKnife;
 public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private ListAdapter adapter;
+
+    @BindView(R.id.list_item)
+    ConstraintLayout layoutListItem;
 
     @BindView(R.id.text_view_name)
     TextView textViewName;
@@ -33,6 +37,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         itemView.setOnClickListener(this);
     }
 
+    public ConstraintLayout getLayoutListItem() {
+        return layoutListItem;
+    }
+
     public TextView getTextViewName() {
         return textViewName;
     }
@@ -49,6 +57,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     @Override
     public void onClick(View view) {
         int index = getAdapterPosition();
+        adapter.setSelectedIndex(index);
         adapter.getClickHandler().onClick(adapter.getBoardGames().get(index));
+        adapter.notifyDataSetChanged();
     }
 }

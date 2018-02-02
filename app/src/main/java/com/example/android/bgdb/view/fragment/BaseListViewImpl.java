@@ -1,6 +1,9 @@
 package com.example.android.bgdb.view.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +14,9 @@ import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.view.adapter.BaseListAdapter;
+import com.example.android.bgdb.view.adapter.BaseListAdapter.BoardGameOnClickHandler;
 import com.example.android.bgdb.view.adapter.ListAdapter;
-import com.example.android.bgdb.view.adapter.ListAdapter.BoardGameOnClickHandler;
 
 import java.util.List;
 
@@ -28,7 +32,7 @@ public abstract class BaseListViewImpl extends Fragment implements
     static final String SEARCH_TYPE = "searchType";
     static final String BOARD_GAME_TAG_ID = "boardGameTagId";
 
-    private ListAdapter adapter;
+    private BaseListAdapter adapter;
     private RecyclerView.SmoothScroller smoothScroller;
 
     @BindView(R.id.list_recycler_view)
@@ -54,6 +58,25 @@ public abstract class BaseListViewImpl extends Fragment implements
                 }
             };
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (savedInstanceState.containsKey(getString(R.string.selected_index))) {
+            int index = savedInstanceState.getInt(getString(R.string.selected_index));
+            adapter.setSelectedIndex(index);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(getString(R.string.selected_index), adapter.getSelectedIndex());
     }
 
     @Override

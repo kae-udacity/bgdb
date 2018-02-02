@@ -1,6 +1,7 @@
 package com.example.android.bgdb.view.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,15 @@ public class PopularListAdapter extends ListAdapter {
             return;
         }
         PopularViewHolder popularViewHolder = (PopularViewHolder) holder;
+        if(context.getResources().getBoolean(R.bool.tablet) && selectedIndex == position){
+            popularViewHolder.getTextViewRank().setTextColor(ContextCompat.getColor(context, R.color.accent));
+        } else {
+            popularViewHolder.getTextViewRank().setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
+
         BoardGame boardGame = boardGames.get(position);
+        bindView(holder, position, boardGame);
         popularViewHolder.getTextViewRank().setText(boardGame.getRank());
-        popularViewHolder.getTextViewName().setText(boardGame.getName());
-        popularViewHolder.getTextViewYear().setText(boardGame.getYear());
         if (popularViewHolder.getImageViewThumbnail() != null) {
             Glide.with(context).load(boardGame.getThumbnailUrl()).into(popularViewHolder.getImageViewThumbnail());
         }

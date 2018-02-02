@@ -15,6 +15,7 @@
     <string name="board_game" translatable="false">boardGame</string>
     <string name="result_code" translatable="false">resultCode</string>
     <string name="selected_board_game" translatable="false">selectedBoardGame</string>
+    <string name="selected_index" translatable="false">selectedIndex</string>
     <string name="the_hotness">The Hotness</string>
     <string name="top_100">Top 100</string>
     <string name="favourites">Favourites</string>

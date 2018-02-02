@@ -3,7 +3,7 @@ package com.example.android.bgdb.view.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +20,7 @@ import java.util.List;
  */
 public class ListAdapter extends BaseListAdapter {
 
-    Context context;
-    List<BoardGame> boardGames;
-    private BoardGameOnClickHandler clickHandler;
-
-    public ListAdapter(Context context, BoardGameOnClickHandler clickHandler) {
+    public ListAdapter(Context context, ListAdapter.BoardGameOnClickHandler clickHandler) {
         this.context = context;
         this.clickHandler = clickHandler;
     }
@@ -41,8 +37,7 @@ public class ListAdapter extends BaseListAdapter {
             return;
         }
         BoardGame boardGame = boardGames.get(position);
-        holder.getTextViewName().setText(boardGame.getName());
-        holder.getTextViewYear().setText(boardGame.getYear());
+        bindView(holder, position, boardGame);
 
         Bitmap thumbnail = BitmapFactory.decodeByteArray(
                 boardGame.getThumbnailBlob(),
@@ -51,41 +46,5 @@ public class ListAdapter extends BaseListAdapter {
         if (holder.getImageViewThumbnail() != null) {
             holder.getImageViewThumbnail().setImageBitmap(thumbnail);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (boardGames == null) {
-            return 0;
-        }
-        return boardGames.size();
-    }
-
-    public List<BoardGame> getBoardGames() {
-        return boardGames;
-    }
-
-    @Override
-    public void setBoardGames(List<BoardGame> boardGames) {
-        this.boardGames = boardGames;
-    }
-
-    public void clear() {
-        if (boardGames == null) {
-            return;
-        }
-        boardGames.clear();
-    }
-
-    public BoardGameOnClickHandler getClickHandler() {
-        return clickHandler;
-    }
-
-    /**
-     * Must be implemented to handle the click events on a board game item in
-     * the {@link RecyclerView}.
-     */
-    public interface BoardGameOnClickHandler {
-        void onClick(BoardGame boardGame);
     }
 }
