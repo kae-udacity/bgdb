@@ -33,23 +33,23 @@ public class BottomNavigationItemSelectedListener implements BottomNavigationVie
                 listFragment = PopularListFragment.newInstance(
                         SearchType.HOT,
                         R.string.the_hotness_board_game_tag);
-                callback.updateListFragment(context.getString(R.string.the_hotness), listFragment);
+                callback.updateListFragment(listFragment, context.getString(R.string.the_hotness));
                 break;
             case R.id.action_top_100:
                 listFragment = PopularListFragment.newInstance(
                         SearchType.TOP,
                         R.string.top_100_board_game_tag);
-                callback.updateListFragment(context.getString(R.string.top_100), listFragment);
+                callback.updateListFragment(listFragment, context.getString(R.string.top_100));
                 break;
             case R.id.action_favorites:
                 listFragment = FavouriteListFragment.newInstance(R.string.favourites_board_game_tag);
-                callback.updateListFragment(context.getString(R.string.favourites), listFragment);
+                callback.updateListFragment(listFragment, context.getString(R.string.favourites));
                 break;
         }
         return true;
     }
 
     public interface OnNavigationItemSelectedCallback {
-        void updateListFragment(String listFragmentTag, BaseListViewImpl listFragment);
+        void updateListFragment(BaseListViewImpl listFragment, String listFragmentTag);
     }
 }

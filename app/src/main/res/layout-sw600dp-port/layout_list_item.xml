@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:layout_marginTop="@dimen/list_item_margin"
+    android:layout_marginBottom="@dimen/list_item_margin"
+    android:paddingLeft="@dimen/list_item_padding"
+    android:paddingRight="@dimen/list_item_padding">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        style="@style/TextViewName"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="board game name" />
+
+    <TextView
+        android:id="@+id/text_view_year"
+        style="@style/ListTextViewYear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="4444" />
+
+</android.support.constraint.ConstraintLayout>

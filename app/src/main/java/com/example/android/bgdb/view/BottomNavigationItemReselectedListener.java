@@ -34,8 +34,8 @@ public class BottomNavigationItemReselectedListener implements BottomNavigationV
                         SearchType.HOT,
                         R.string.the_hotness_board_game_tag);
                 callback.updateCurrentFragment(
-                        context.getString(R.string.the_hotness),
                         listFragment,
+                        context.getString(R.string.the_hotness),
                         R.string.the_hotness_board_game_tag);
                 break;
             case R.id.action_top_100:
@@ -43,21 +43,21 @@ public class BottomNavigationItemReselectedListener implements BottomNavigationV
                         SearchType.TOP,
                         R.string.top_100_board_game_tag);
                 callback.updateCurrentFragment(
-                        context.getString(R.string.top_100),
                         listFragment,
+                        context.getString(R.string.top_100),
                         R.string.top_100_board_game_tag);
                 break;
             case R.id.action_favorites:
                 listFragment = FavouriteListFragment.newInstance(R.string.favourites_board_game_tag);
                 callback.updateCurrentFragment(
-                        context.getString(R.string.favourites),
                         listFragment,
+                        context.getString(R.string.favourites),
                         R.string.favourites_board_game_tag);
                 break;
         }
     }
 
     public interface OnNavigationItemReselectedCallback {
-        void updateCurrentFragment(String listFragmentTag, BaseListViewImpl listFragment, int boardGameFragmentTagId);
+        void updateCurrentFragment(BaseListViewImpl listFragment, String listFragmentTag, int boardGameFragmentTagId);
     }
 }

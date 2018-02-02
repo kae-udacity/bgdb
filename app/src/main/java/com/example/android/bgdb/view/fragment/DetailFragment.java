@@ -1,14 +1,10 @@
 package com.example.android.bgdb.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -22,41 +18,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.presenter.DetailPresenter;
 import com.example.android.bgdb.presenter.DetailPresenterImpl;
 import com.example.android.bgdb.view.ContextWrapper;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.android.bgdb.view.loaderlistener.DeleteLoaderListener;
+import com.example.android.bgdb.view.loaderlistener.InsertLoaderListener;
+import com.example.android.bgdb.view.loaderlistener.LoaderListener;
+import com.example.android.bgdb.view.loaderlistener.QueryLoaderListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment implements
-        DetailView,
-        LoaderManagerView {
+public class DetailFragment extends Fragment implements DetailView, LoaderManagerView {
 
-    private OnDetailFragmentInteractionListener listener;
-    private BoardGameFragment boardGameFragment;
+    private DetailFragmentListener listener;
     private DetailPresenter presenter;
+    private LoaderListener queryListener;
+    private LoaderListener deleteListener;
 
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.detail_toolbar)
     Toolbar toolbar;
 
     @BindView(R.id.detail_banner_image)
@@ -100,30 +90,19 @@ public class DetailFragment extends Fragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-        }
-        setHasOptionsMenu(true);
-        return view;
-    }
+        listener.setUpActionBar(toolbar);
+        presenter = new DetailPresenterImpl(this, this);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            setUpBoardGameFragment(activity);
+        LoaderListener insertListener = new InsertLoaderListener(listener);
+        queryListener = new QueryLoaderListener(listener);
+        deleteListener =
+                new DeleteLoaderListener(getContext(), listener, presenter, insertListener);
 
-            Intent intent = activity.getIntent();
-            BoardGame boardGame = intent.getParcelableExtra(getString(R.string.board_game));
-
-            presenter = new DetailPresenterImpl(this, this);
-            if (boardGameFragment.getBoardGames() == null
-                    || boardGameFragment.getBoardGames().isEmpty()) {
+        BoardGame boardGame = listener.getBoardGame();
+        if (boardGame != null) {
+            if (boardGame.getDescription() == null) {
                 presenter.load(boardGame);
             } else {
-                boardGame = boardGameFragment.getBoardGames().get(0);
                 updateView(boardGame);
             }
         }
@@ -136,24 +115,8 @@ public class DetailFragment extends Fragment implements
                 detailRatingContainer.setAlpha(1.0f - (positiveOffSet * 2));
             }
         });
-    }
-
-    private void setUpBoardGameFragment(AppCompatActivity activity) {
-        if (activity != null) {
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            String boardGameFragmentTag = getString(R.string.detail_board_game_fragment_tag);
-            boardGameFragment = (BoardGameFragment) fragmentManager
-                    .findFragmentByTag(boardGameFragmentTag);
-
-            if (boardGameFragment == null) {
-                boardGameFragment = new BoardGameFragment();
-
-                fragmentManager.beginTransaction()
-                        .add(boardGameFragment, boardGameFragmentTag)
-                        .commit();
-                boardGameFragment.setTargetFragment(this, 1);
-            }
-        }
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -168,8 +131,8 @@ public class DetailFragment extends Fragment implements
                 return true;
             case R.id.action_favourite:
                 if (activity != null) {
-                    BoardGame boardGame = boardGameFragment.getBoardGames().get(0);
-                    presenter.delete(new ContextWrapper(getContext()), boardGame.getId());
+                    BoardGame boardGame = listener.getBoardGame();
+                    presenter.delete(new ContextWrapper(getContext()), deleteListener, boardGame.getId());
                 }
                 break;
         }
@@ -179,11 +142,11 @@ public class DetailFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnDetailFragmentInteractionListener) {
-            listener = (OnDetailFragmentInteractionListener) context;
+        if (context instanceof DetailFragmentListener) {
+            listener = (DetailFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnDetailFragmentInteractionListener");
+                    + " must implement DetailFragmentListener");
         }
     }
 
@@ -191,7 +154,6 @@ public class DetailFragment extends Fragment implements
     public void onDetach() {
         super.onDetach();
         listener = null;
-        boardGameFragment.setTargetFragment(null, 1);
     }
 
     @Override
@@ -201,51 +163,10 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onPostLoad(BoardGame boardGame) {
+        if (listener == null) {
+            return;
+        }
         listener.onPostLoad(boardGame);
-    }
-
-    @Override
-    public void onPostQuery(boolean favourite) {
-        if (favourite) {
-            listener.updateFavouriteIcon(R.drawable.ic_favorite_black, R.color.accent);
-        }
-        listener.onPostQuery();
-    }
-
-    @Override
-    public void onPostDelete(int rowsDeleted) {
-        if (rowsDeleted > 0) {
-            listener.onUpdateFavourite();
-            listener.updateFavouriteIcon(R.drawable.ic_favorite_border_black, R.color.white);
-        } else {
-            final BoardGame boardGame = boardGameFragment.getBoardGames().get(0);
-
-            if (boardGame.getThumbnailBlob() == null) {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(boardGame.getThumbnailUrl())
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap thumbnail, Transition<? super Bitmap> transition) {
-                                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                                thumbnail.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-                                byte[] thumbnailBlob = outputStream.toByteArray();
-                                boardGame.setThumbnailBlob(thumbnailBlob);
-                                presenter.insert(new ContextWrapper(getContext()), boardGame);
-                            }
-                        });
-            } else {
-                presenter.insert(new ContextWrapper(getContext()), boardGame);
-            }
-        }
-    }
-
-    @Override
-    public void onPostInsert(boolean insertSuccessful) {
-        if (insertSuccessful) {
-            listener.onUpdateFavourite();
-            listener.updateFavouriteIcon(R.drawable.ic_favorite_black, R.color.accent);
-        }
     }
 
     @Override
@@ -258,10 +179,7 @@ public class DetailFragment extends Fragment implements
     }
 
     public void updateView(BoardGame boardGame) {
-        presenter.query(new ContextWrapper(getContext()), boardGame.getId());
-        List<BoardGame> boardGames = new ArrayList<>();
-        boardGames.add(boardGame);
-        boardGameFragment.setBoardGames(boardGames);
+        presenter.query(new ContextWrapper(getContext()), queryListener, boardGame.getId());
 
         Context context = getContext();
         if (context != null) {
@@ -274,12 +192,13 @@ public class DetailFragment extends Fragment implements
         detailRating.setText(boardGame.getRating());
     }
 
-    public interface OnDetailFragmentInteractionListener {
+    public interface DetailFragmentListener extends DetailView {
+        void setUpActionBar(Toolbar toolbar);
         void setActionBarTitle(String name);
-        void onPreLoad();
-        void onPostLoad(BoardGame boardGame);
+        BoardGame getBoardGame();
+        void setBoardGame(BoardGame boardGame);
+        void onPostLoad();
         void updateFavouriteIcon(int drawableId, int colorId);
         void onUpdateFavourite();
-        void onPostQuery();
     }
 }

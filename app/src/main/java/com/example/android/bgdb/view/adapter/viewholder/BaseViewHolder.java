@@ -1,5 +1,6 @@
 package com.example.android.bgdb.view.adapter.viewholder;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     @BindView(R.id.text_view_year)
     TextView textViewYear;
 
+    @Nullable
     @BindView(R.id.image_view_thumbnail)
     ImageView imageViewThumbnail;
 
@@ -39,6 +41,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return textViewYear;
     }
 
+    @Nullable
     public ImageView getImageViewThumbnail() {
         return imageViewThumbnail;
     }

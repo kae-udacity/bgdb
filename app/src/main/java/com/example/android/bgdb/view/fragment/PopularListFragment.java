@@ -1,12 +1,11 @@
 package com.example.android.bgdb.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +23,14 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
+ * {@link ListFragmentListener} interface
  * to handle interaction events.
  * Use the {@link PopularListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class PopularListFragment extends BaseListViewImpl {
 
-    private OnFragmentInteractionListener listener;
-    private BoardGameFragment boardGameFragment;
+    private ListFragmentListener listener;
 
     public PopularListFragment() {
         // Required empty public constructor
@@ -66,7 +64,11 @@ public class PopularListFragment extends BaseListViewImpl {
         Bundle args = getArguments();
         int boardGameTagId = getBoardGameTagId(args);
         String boardGameFragmentTag = getString(boardGameTagId);
-        setUpBoardGameFragment(boardGameFragmentTag);
+        BoardGameFragment boardGameFragment = listener.getBoardGameFragment(boardGameFragmentTag);
+        if (boardGameFragment == null) {
+            return view;
+        }
+
         if (boardGameFragment.getBoardGames() == null
                 || boardGameFragment.getBoardGames().isEmpty()) {
             SearchType searchType = getSearchType(args);
@@ -76,25 +78,6 @@ public class PopularListFragment extends BaseListViewImpl {
             onPostLoad(boardGameFragment.getBoardGames());
         }
         return view;
-    }
-
-    private void setUpBoardGameFragment(String boardGameFragmentTag) {
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            // Check to see if we have retained the worker fragment.
-            boardGameFragment = (BoardGameFragment)
-                    fragmentManager.findFragmentByTag(boardGameFragmentTag);
-            // If not retained (or first time running), we need to create it.
-            if (boardGameFragment == null) {
-                boardGameFragment = BoardGameFragment.newInstance();
-                // Tell it who it is working with.
-                fragmentManager.beginTransaction()
-                        .add(boardGameFragment, boardGameFragmentTag)
-                        .commit();
-            }
-            boardGameFragment.setTargetFragment(this, 1);
-        }
     }
 
     private int getBoardGameTagId(Bundle args) {
@@ -117,11 +100,11 @@ public class PopularListFragment extends BaseListViewImpl {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
+        if (context instanceof ListFragmentListener) {
+            listener = (ListFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ListFragmentListener");
         }
     }
 
@@ -129,13 +112,19 @@ public class PopularListFragment extends BaseListViewImpl {
     public void onDetach() {
         super.onDetach();
         listener = null;
-        boardGameFragment.setTargetFragment(null, 1);
     }
 
     @Override
     public void onClick(BoardGame boardGame) {
-        Intent intent = new Intent(getContext(), DetailActivity.class);
-        intent.putExtra(getString(R.string.board_game), boardGame);
-        startActivity(intent);
+        Activity activity = getActivity();
+        if (activity != null) {
+            if (getActivity().getResources().getBoolean(R.bool.tablet)) {
+                listener.showDetailFragment(boardGame);
+            } else {
+                Intent intent = new Intent(activity, DetailActivity.class);
+                intent.putExtra(getString(R.string.board_game), boardGame);
+                startActivity(intent);
+            }
+        }
     }
 }

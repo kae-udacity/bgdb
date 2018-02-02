@@ -10,12 +10,12 @@ import com.example.android.bgdb.model.task.DetailAsyncTask;
 import com.example.android.bgdb.view.ContextWrapper;
 import com.example.android.bgdb.view.fragment.DetailView;
 import com.example.android.bgdb.view.fragment.LoaderManagerView;
+import com.example.android.bgdb.view.loaderlistener.LoaderListener;
 
 /**
  * Executes a {@link DetailAsyncTask} to retrieve the board game data.
  * Sends the board game with the data to the view.
  */
-
 public class DetailPresenterImpl implements DetailPresenter {
 
     private static final int DELETE_FAVOURITE_LOADER_ID = 202;
@@ -24,6 +24,9 @@ public class DetailPresenterImpl implements DetailPresenter {
 
     private LoaderManagerView loaderManagerView;
     private DetailView detailView;
+    private LoaderListener queryListener;
+    private LoaderListener insertListener;
+    private LoaderListener deleteListener;
 
     public DetailPresenterImpl(LoaderManagerView loaderManagerView, DetailView detailView) {
         this.loaderManagerView = loaderManagerView;
@@ -46,7 +49,8 @@ public class DetailPresenterImpl implements DetailPresenter {
     }
 
     @Override
-    public void query(ContextWrapper contextWrapper, String apiId) {
+    public void query(ContextWrapper contextWrapper, LoaderListener listener, String apiId) {
+        queryListener = listener;
         QueryFavouriteLoaderCallbacks callbacks =
                 new QueryFavouriteLoaderCallbacks(contextWrapper, this, apiId);
         LoaderManager loaderManager = loaderManagerView.getSupportLoaderManager();
@@ -58,12 +62,18 @@ public class DetailPresenterImpl implements DetailPresenter {
     }
 
     @Override
-    public void onPostQuery(boolean favourite) {
-        detailView.onPostQuery(favourite);
+    public void onPreQuery() {
+        queryListener.onPreLoad();
     }
 
     @Override
-    public void insert(ContextWrapper contextWrapper, BoardGame boardGame) {
+    public void onPostQuery(boolean favourite) {
+        queryListener.onPostLoad(favourite);
+    }
+
+    @Override
+    public void insert(ContextWrapper contextWrapper, LoaderListener listener, BoardGame boardGame) {
+        insertListener = listener;
         InsertFavouriteLoaderCallbacks callbacks =
                 new InsertFavouriteLoaderCallbacks(contextWrapper, this, boardGame);
         LoaderManager loaderManager = loaderManagerView.getSupportLoaderManager();
@@ -75,12 +85,13 @@ public class DetailPresenterImpl implements DetailPresenter {
     }
 
     @Override
-    public void onPostInsert(boolean insertSuccessful) {
-        detailView.onPostInsert(insertSuccessful);
+    public void onPostInsert(boolean successful) {
+        insertListener.onPostLoad(successful);
     }
 
     @Override
-    public void delete(ContextWrapper contextWrapper, String apiId) {
+    public void delete(ContextWrapper contextWrapper, LoaderListener listener, String apiId) {
+        deleteListener = listener;
         DeleteFavouriteLoaderCallbacks callbacks =
                 new DeleteFavouriteLoaderCallbacks(contextWrapper, this, apiId);
         LoaderManager loaderManager = loaderManagerView.getSupportLoaderManager();
@@ -93,6 +104,6 @@ public class DetailPresenterImpl implements DetailPresenter {
 
     @Override
     public void onPostDelete(int rowsDeleted) {
-        detailView.onPostDelete(rowsDeleted);
+        deleteListener.onPostLoad(rowsDeleted > 0);
     }
 }

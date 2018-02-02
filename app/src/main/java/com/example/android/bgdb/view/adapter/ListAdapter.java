@@ -48,7 +48,9 @@ public class ListAdapter extends BaseListAdapter {
                 boardGame.getThumbnailBlob(),
                 0,
                 boardGame.getThumbnailBlob().length);
-        holder.getImageViewThumbnail().setImageBitmap(thumbnail);
+        if (holder.getImageViewThumbnail() != null) {
+            holder.getImageViewThumbnail().setImageBitmap(thumbnail);
+        }
     }
 
     @Override

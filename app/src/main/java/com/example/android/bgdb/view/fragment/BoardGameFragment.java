@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
+ * {@link FragmentListener} interface
  * to handle interaction events.
  * Use the {@link BoardGameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BoardGameFragment extends Fragment implements BaseView {
+public class BoardGameFragment extends Fragment implements BoardGameView {
 
-    private OnFragmentInteractionListener listener;
+    private FragmentListener listener;
     private List<BoardGame> boardGames;
 
     public BoardGameFragment() {
@@ -44,11 +44,11 @@ public class BoardGameFragment extends Fragment implements BaseView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
+        if (context instanceof FragmentListener) {
+            listener = (FragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FragmentListener");
         }
     }
 
@@ -58,6 +58,7 @@ public class BoardGameFragment extends Fragment implements BaseView {
         listener = null;
     }
 
+    @Override
     public void setBoardGames(List<BoardGame> boardGames) {
         this.boardGames = boardGames;
     }
@@ -68,19 +69,5 @@ public class BoardGameFragment extends Fragment implements BaseView {
 
     public void clearBoardGames() {
         this.boardGames = null;
-    }
-
-    @Override
-    public void onPostLoad(List<BoardGame> boardGames) {
-        setBoardGames(boardGames);
-        BaseListViewImpl listFragment = (BaseListViewImpl) getTargetFragment();
-        if (listFragment != null) {
-            listFragment.onPostLoad(boardGames);
-        }
-    }
-
-    @Override
-    public void onPreLoad() {
-
     }
 }

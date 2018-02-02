@@ -25,14 +25,13 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * {@link ListFragmentListener} interface to handle interaction events.
  * Use the {@link FavouriteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class FavouriteListFragment extends BaseListViewImpl implements LoaderManagerView {
 
-    private OnFragmentInteractionListener listener;
+    private ListFragmentListener listener;
     private FavouriteListPresenter presenter;
 
     public FavouriteListFragment() {
@@ -73,11 +72,11 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
+        if (context instanceof ListFragmentListener) {
+            listener = (ListFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ListFragmentListener");
         }
     }
 
@@ -85,6 +84,14 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == getResources().getInteger(R.integer.request_code)
+                && resultCode == Activity.RESULT_OK) {
+            presenter.load(new ContextWrapper(getContext()));
+        }
     }
 
     @Override
@@ -97,17 +104,16 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getResources().getInteger(R.integer.request_code)
-                && resultCode == Activity.RESULT_OK) {
-            presenter.load(new ContextWrapper(getContext()));
-        }
-    }
-
-    @Override
     public void onClick(BoardGame boardGame) {
-        Intent intent = new Intent(getContext(), DetailActivity.class);
-        intent.putExtra(getString(R.string.board_game), boardGame);
-        startActivityForResult(intent, getResources().getInteger(R.integer.request_code));
+        Activity activity = getActivity();
+        if (activity != null) {
+            if (getActivity().getResources().getBoolean(R.bool.tablet)) {
+                listener.showDetailFragment(boardGame);
+            } else {
+                Intent intent = new Intent(activity, DetailActivity.class);
+                intent.putExtra(getString(R.string.board_game), boardGame);
+                startActivityForResult(intent, getResources().getInteger(R.integer.request_code));
+            }
+        }
     }
 }

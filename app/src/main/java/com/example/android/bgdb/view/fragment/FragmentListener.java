@@ -6,6 +6,7 @@ package com.example.android.bgdb.view.fragment;
  * to the activity and potentially other fragments contained in that
  * activity.
  */
-public interface OnFragmentInteractionListener {
+public interface FragmentListener {
+
     void onFragmentInteraction();
 }

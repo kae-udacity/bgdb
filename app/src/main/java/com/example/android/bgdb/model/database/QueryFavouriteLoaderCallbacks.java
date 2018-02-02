@@ -32,7 +32,7 @@ public class QueryFavouriteLoaderCallbacks implements LoaderCallbacks<Cursor> {
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-        presenter.onPreLoad();
+        presenter.onPreQuery();
         Uri uri = BoardGameContract.BoardGameEntry.CONTENT_URI
                 .buildUpon()
                 .appendPath(BoardGameContract.BoardGameEntry.COLUMN_API_ID)
@@ -44,7 +44,13 @@ public class QueryFavouriteLoaderCallbacks implements LoaderCallbacks<Cursor> {
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        boolean favourite = cursor != null && cursor.getCount() != 0;
+        if (cursor == null) {
+            presenter.onPostQuery(false);
+            return;
+        }
+
+        boolean favourite = cursor.getCount() != 0;
+        cursor.close();
         presenter.onPostQuery(favourite);
     }
 

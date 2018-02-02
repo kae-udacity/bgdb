@@ -24,7 +24,7 @@ public class BoardGameDatabaseHelper extends SQLiteOpenHelper {
                 BoardGameEntry.TABLE_NAME + " (" +
                 BoardGameEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 BoardGameEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                BoardGameEntry.COLUMN_API_ID + " INTEGER NOT NULL UNIQUE, " +
+                BoardGameEntry.COLUMN_API_ID + " INTEGER NOT NULL, " +
                 BoardGameEntry.COLUMN_THUMBNAIL + " BLOB NOT NULL, " +
                 BoardGameEntry.COLUMN_YEAR + " TEXT NOT NULL " +
                 ");";

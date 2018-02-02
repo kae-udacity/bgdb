@@ -33,6 +33,8 @@ public class PopularListAdapter extends ListAdapter {
         popularViewHolder.getTextViewRank().setText(boardGame.getRank());
         popularViewHolder.getTextViewName().setText(boardGame.getName());
         popularViewHolder.getTextViewYear().setText(boardGame.getYear());
-        Glide.with(context).load(boardGame.getThumbnailUrl()).into(popularViewHolder.getImageViewThumbnail());
+        if (popularViewHolder.getImageViewThumbnail() != null) {
+            Glide.with(context).load(boardGame.getThumbnailUrl()).into(popularViewHolder.getImageViewThumbnail());
+        }
     }
 }

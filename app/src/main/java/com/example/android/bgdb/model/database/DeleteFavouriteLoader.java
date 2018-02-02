@@ -2,6 +2,7 @@ package com.example.android.bgdb.model.database;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.android.bgdb.model.BoardGame;
@@ -13,6 +14,7 @@ import com.example.android.bgdb.model.database.BoardGameContract.BoardGameEntry;
 public class DeleteFavouriteLoader extends AsyncTaskLoader<Integer> {
 
     private String apiId;
+    private Integer rowsDeleted;
 
     DeleteFavouriteLoader(Context context, String apiId) {
         super(context);
@@ -21,7 +23,11 @@ public class DeleteFavouriteLoader extends AsyncTaskLoader<Integer> {
 
     @Override
     protected void onStartLoading() {
-        forceLoad();
+        if (rowsDeleted == null) {
+            forceLoad();
+        } else {
+            deliverResult(rowsDeleted);
+        }
     }
 
     @Override
@@ -33,5 +39,11 @@ public class DeleteFavouriteLoader extends AsyncTaskLoader<Integer> {
                 .build();
 
         return getContext().getContentResolver().delete(uri, null, null);
+    }
+
+    @Override
+    public void deliverResult(@Nullable Integer rowsDeleted) {
+        this.rowsDeleted = rowsDeleted;
+        super.deliverResult(rowsDeleted);
     }
 }

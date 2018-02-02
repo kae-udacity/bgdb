@@ -1,35 +1,25 @@
 package com.example.android.bgdb.view.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.example.android.bgdb.R;
-import com.example.android.bgdb.view.fragment.MainFragment;
-import com.example.android.bgdb.view.fragment.OnFragmentInteractionListener;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+public class MainActivity extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment mainFragment = fragmentManager.findFragmentByTag(getString(R.string.main_fragment));
-
-        if (mainFragment == null) {
-            mainFragment = MainFragment.newInstance();
+        Intent intent;
+        if (getResources().getBoolean(R.bool.tablet)) {
+            intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
+        } else {
+            intent = new Intent(this, MasterActivity.class);
+            startActivity(intent);
         }
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_container, mainFragment, getString(R.string.main_fragment))
-                .commit();
-    }
-
-    @Override
-    public void onFragmentInteraction() {
-
+        finish();
     }
 }

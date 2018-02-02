@@ -40,7 +40,7 @@ public class QueryFavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor == null || cursor.getCount() == 0) {
+        if (cursor == null) {
             presenter.onPostLoad(null);
             return;
         }

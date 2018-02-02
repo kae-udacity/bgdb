@@ -1,15 +1,15 @@
 package com.example.android.bgdb.view.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,21 +18,30 @@ import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
-import com.example.android.bgdb.view.fragment.DetailFragment.OnDetailFragmentInteractionListener;
-import com.example.android.bgdb.view.fragment.OnFragmentInteractionListener;
+import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
+import com.example.android.bgdb.view.fragment.FragmentListener;
+import com.example.android.bgdb.view.fragment.MasterFragment;
+import com.example.android.bgdb.view.fragment.ListFragmentListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements
-        OnFragmentInteractionListener,
-        OnDetailFragmentInteractionListener {
+public class DetailActivity extends BaseActivity implements
+        FragmentListener,
+        ListFragmentListener,
+        DetailFragmentListener {
 
     private Menu menu;
     private int result = Activity.RESULT_CANCELED;
     private int drawableId = -1;
     private int colorId = -1;
+    private BoardGame selectedBoardGame;
+    private BoardGameFragment boardGameFragment;
 
     @BindView(R.id.detail_container)
     FrameLayout detailContainer;
@@ -46,6 +55,23 @@ public class DetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        String boardGameFragmentTag = getString(R.string.detail_board_game_fragment_tag);
+        setUpDetailBoardGameFragment(boardGameFragmentTag);
+        Intent intent = getIntent();
+        if (intent.hasExtra(getString(R.string.board_game))) {
+            BoardGame boardGame = intent.getParcelableExtra(getString(R.string.board_game));
+            setBoardGame(boardGame);
+        }
+
+        if (getResources().getBoolean(R.bool.tablet)) {
+            detailContainer.setVisibility(View.GONE);
+            setUpMasterFragment();
+        } else {
+            setUpDetailFragment();
+        }
+    }
+
+    private void setUpDetailFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment detailFragment = fragmentManager.findFragmentByTag(getString(R.string.detail_fragment));
 
@@ -58,10 +84,38 @@ public class DetailActivity extends AppCompatActivity implements
                 .commit();
     }
 
+    private void setUpMasterFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment masterFragment = fragmentManager.findFragmentByTag(getString(R.string.master_fragment));
+
+        if (masterFragment == null) {
+            masterFragment = MasterFragment.newInstance();
+        }
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.master_container, masterFragment, getString(R.string.master_fragment))
+                .commit();
+    }
+
+    private void setUpDetailBoardGameFragment(String boardGameFragmentTag) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boardGameFragment = (BoardGameFragment) fragmentManager
+                .findFragmentByTag(boardGameFragmentTag);
+
+        if (boardGameFragment == null) {
+            boardGameFragment = new BoardGameFragment();
+
+            fragmentManager.beginTransaction()
+                    .add(boardGameFragment, boardGameFragmentTag)
+                    .commit();
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.result_code), result);
+        outState.putParcelable(getString(R.string.selected_board_game), selectedBoardGame);
     }
 
     @Override
@@ -69,6 +123,10 @@ public class DetailActivity extends AppCompatActivity implements
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey(getString(R.string.result_code))) {
             result = savedInstanceState.getInt(getString(R.string.result_code));
+        }
+
+        if (savedInstanceState.containsKey(getString(R.string.selected_board_game))) {
+            selectedBoardGame = savedInstanceState.getParcelable(getString(R.string.selected_board_game));
         }
     }
 
@@ -84,6 +142,16 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void setUpActionBar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        boolean enabled = !getResources().getBoolean(R.bool.tablet);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(enabled);
+        }
+    }
+
+    @Override
     public void setActionBarTitle(String name) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -92,9 +160,31 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
+    public BoardGame getBoardGame() {
+        if (boardGameFragment.getBoardGames() == null
+                || boardGameFragment.getBoardGames().isEmpty()) {
+            return null;
+        }
+        return boardGameFragment.getBoardGames().get(0);
+    }
+
+    @Override
+    public void setBoardGame(BoardGame boardGame) {
+        List<BoardGame> boardGames = new ArrayList<>();
+        boardGames.add(boardGame);
+        boardGameFragment.setBoardGames(boardGames);
+    }
+
+    @Override
     public void onPreLoad() {
         detailContainer.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPostLoad() {
+        detailContainer.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -136,14 +226,16 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPostQuery() {
-        detailContainer.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     public void onUpdateFavourite() {
         result = Activity.RESULT_OK;
+        if (getResources().getBoolean(R.bool.tablet)) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentByTag(getString(R.string.favourites));
+
+            if (fragment != null) {
+                fragment.onActivityResult(getResources().getInteger(R.integer.request_code), result, null);
+            }
+        }
     }
 
     @Override
@@ -154,6 +246,16 @@ public class DetailActivity extends AppCompatActivity implements
 
     private void displayEmptyView() {
 
+    }
+
+    @Override
+    public void showDetailFragment(BoardGame boardGame) {
+        selectedBoardGame = boardGame;
+        setBoardGame(boardGame);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.detail_container, DetailFragment.newInstance(), getString(R.string.detail_fragment))
+                .commit();
     }
 
     @Override
