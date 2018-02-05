@@ -11,8 +11,8 @@
     <dimen name="list_container_height">0dp</dimen>
 
     <dimen name="list_item_height">72dp</dimen>
-    <dimen name="list_item_padding_horizontal">8dp</dimen>
-    <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="list_item_padding_vertical">8dp</dimen>
+    <dimen name="list_item_padding_horizontal">16dp</dimen>
 
     <dimen name="list_rank_height">0dp</dimen>
     <dimen name="list_rank_text_size">14sp</dimen>
@@ -44,4 +44,22 @@
     <dimen name="detail_rating_margin">16dp</dimen>
     <dimen name="detail_rating_container_corner_radius">0dp</dimen>
     <dimen name="detail_rating_container_elevation">4dp</dimen>
+
+    <dimen name="widget_min_height">40dp</dimen>
+    <dimen name="widget_min_width">40dp</dimen>
+
+    <dimen name="widget_list_view_margin">0dp</dimen>
+
+    <dimen name="widget_list_item_height">72dp</dimen>
+    <dimen name="widget_list_item_padding_horizontal">16dp</dimen>
+    <dimen name="widget_list_item_padding_vertical">8dp</dimen>
+
+    <dimen name="widget_text_view_height">0dp</dimen>
+    <dimen name="widget_text_view_padding">8dp</dimen>
+    <dimen name="widget_text_view_text_size">14sp</dimen>
+
+    <dimen name="widget_thumbnail_width">56dp</dimen>
+
+    <dimen name="widget_empty_view_margin">16dp</dimen>
+    <dimen name="widget_empty_view_text_size">20sp</dimen>
 </resources>

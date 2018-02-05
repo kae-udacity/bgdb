@@ -9,7 +9,7 @@ import android.support.v4.content.Loader;
 
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.database.BoardGameContract.BoardGameEntry;
-import com.example.android.bgdb.presenter.FavouriteListPresenter;
+import com.example.android.bgdb.presenter.BasePresenter;
 import com.example.android.bgdb.view.ContextWrapper;
 
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ import java.util.List;
 public class QueryFavouriteListLoaderCallbacks implements LoaderCallbacks<Cursor> {
 
     private ContextWrapper contextWrapper;
-    private FavouriteListPresenter presenter;
+    private BasePresenter presenter;
 
-    public QueryFavouriteListLoaderCallbacks(ContextWrapper contextWrapper, FavouriteListPresenter presenter) {
+    public QueryFavouriteListLoaderCallbacks(ContextWrapper contextWrapper, BasePresenter presenter) {
         this.contextWrapper = contextWrapper;
         this.presenter = presenter;
     }
