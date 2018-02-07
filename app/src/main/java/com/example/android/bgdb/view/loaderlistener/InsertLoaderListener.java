@@ -19,8 +19,9 @@ public class InsertLoaderListener implements LoaderListener {
     @Override
     public void onPostLoad(boolean successful) {
         if (successful) {
-            listener.onUpdateFavourite();
+            listener.updateFavourite();
             listener.updateFavouriteIcon(R.drawable.ic_favorite_black, R.color.accent);
+            listener.updateWidget();
         }
     }
 }

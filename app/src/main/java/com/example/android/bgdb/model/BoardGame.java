@@ -28,6 +28,7 @@ public class BoardGame implements Parcelable {
         description = in.readString();
         year = in.readString();
         rank = in.readString();
+        ranks = in.readString();
         rating = in.readString();
         thumbnailUrl = in.readString();
         thumbnailBlob = in.createByteArray();
@@ -147,6 +148,7 @@ public class BoardGame implements Parcelable {
         parcel.writeString(description);
         parcel.writeString(year);
         parcel.writeString(rank);
+        parcel.writeString(ranks);
         parcel.writeString(rating);
         parcel.writeString(thumbnailUrl);
         parcel.writeByteArray(thumbnailBlob);

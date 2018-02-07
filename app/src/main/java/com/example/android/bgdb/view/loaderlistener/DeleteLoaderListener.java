@@ -38,8 +38,9 @@ public class DeleteLoaderListener implements LoaderListener {
     @Override
     public void onPostLoad(boolean successful) {
         if (successful) {
-            listener.onUpdateFavourite();
+            listener.updateFavourite();
             listener.updateFavouriteIcon(R.drawable.ic_favorite_border_black, R.color.white);
+            listener.updateWidget();
         } else {
             final BoardGame boardGame = listener.getBoardGame();
             if (boardGame.getThumbnailBlob() == null) {

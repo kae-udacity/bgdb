@@ -20,7 +20,9 @@
     <string name="top_100">Top 100</string>
     <string name="favourites">Favourites</string>
     <string name="thumbnail">thumbnail</string>
+    <string name="widget_thumbnail">widget thumbnail</string>
     <string name="banner_image">banner image</string>
     <string name="description">Description</string>
     <string name="favourite">favourite</string>
+    <string name="add_some_favourites">Add some favourites.</string>
 </resources>
