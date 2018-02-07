@@ -18,14 +18,16 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
     int selectedIndex = -1;
 
     void bindView(BaseViewHolder holder, int position, BoardGame boardGame) {
-        if(context.getResources().getBoolean(R.bool.tablet) && selectedIndex == position){
-            holder.getLayoutListItem().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_semi_transparent_44));
-            holder.getTextViewName().setTextColor(ContextCompat.getColor(context, R.color.accent));
-            holder.getTextViewYear().setTextColor(ContextCompat.getColor(context, R.color.accent));
-        } else {
-            holder.getLayoutListItem().setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-            holder.getTextViewName().setTextColor(ContextCompat.getColor(context, R.color.black));
-            holder.getTextViewYear().setTextColor(ContextCompat.getColor(context, R.color.gray));
+        if(holder.getLayoutListItem() != null) {
+            if (selectedIndex == position) {
+                holder.getLayoutListItem().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_light));
+                holder.getTextViewName().setTextColor(ContextCompat.getColor(context, R.color.accent));
+                holder.getTextViewYear().setTextColor(ContextCompat.getColor(context, R.color.accent));
+            } else {
+                holder.getLayoutListItem().setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                holder.getTextViewName().setTextColor(ContextCompat.getColor(context, R.color.black));
+                holder.getTextViewYear().setTextColor(ContextCompat.getColor(context, R.color.gray));
+            }
         }
         holder.getTextViewName().setText(boardGame.getName());
         holder.getTextViewYear().setText(boardGame.getYear());

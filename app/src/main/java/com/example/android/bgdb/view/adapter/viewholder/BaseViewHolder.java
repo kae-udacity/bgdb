@@ -1,10 +1,10 @@
 package com.example.android.bgdb.view.adapter.viewholder;
 
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.bgdb.R;
@@ -17,8 +17,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     private ListAdapter adapter;
 
+    @Nullable
     @BindView(R.id.list_item)
-    ConstraintLayout layoutListItem;
+    RelativeLayout layoutListItem;
 
     @BindView(R.id.text_view_name)
     TextView textViewName;
@@ -37,7 +38,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         itemView.setOnClickListener(this);
     }
 
-    public ConstraintLayout getLayoutListItem() {
+    @Nullable
+    public RelativeLayout getLayoutListItem() {
         return layoutListItem;
     }
 
