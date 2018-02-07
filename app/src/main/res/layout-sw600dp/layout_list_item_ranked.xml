@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:background="@drawable/ripple"
+        android:paddingTop="@dimen/list_item_padding_vertical"
+        android:paddingBottom="@dimen/list_item_padding_vertical"
+        android:paddingLeft="@dimen/list_item_padding_horizontal"
+        android:paddingRight="@dimen/list_item_padding_horizontal">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/list_item_guideline_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <TextView
+            android:id="@+id/text_view_rank"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/list_rank_height"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_rank_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/list_item_guideline_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="123" />
+
+        <TextView
+            android:id="@+id/text_view_name"
+            style="@style/TextViewName"
+            android:layout_marginLeft="@dimen/list_name_margin"
+            android:layout_marginStart="@dimen/list_name_margin"
+            app:layout_constraintBottom_toTopOf="@+id/text_view_year"
+            app:layout_constraintEnd_toStartOf="@id/image_view_thumbnail"
+            app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="board game name" />
+
+        <TextView
+            android:id="@+id/text_view_year"
+            style="@style/ListTextViewYear"
+            android:layout_marginLeft="@dimen/list_year_margin"
+            android:layout_marginStart="@dimen/list_year_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/list_item_guideline_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_name"
+            tools:text="4444" />
+
+        <ImageView
+            android:id="@+id/image_view_thumbnail"
+            style="@style/ImageViewThumbnail"
+            android:contentDescription="@string/thumbnail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_view_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>
