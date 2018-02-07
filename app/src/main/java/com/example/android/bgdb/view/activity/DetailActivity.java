@@ -61,16 +61,20 @@ public class DetailActivity extends BaseActivity implements
         String boardGameFragmentTag = getString(R.string.detail_board_game_fragment_tag);
         setUpDetailBoardGameFragment(boardGameFragmentTag);
         Intent intent = getIntent();
+        BoardGame boardGame = null;
         if (intent.hasExtra(getString(R.string.board_game))) {
-            BoardGame boardGame = intent.getParcelableExtra(getString(R.string.board_game));
+            boardGame = intent.getParcelableExtra(getString(R.string.board_game));
             setBoardGame(boardGame);
         }
 
         if (getResources().getBoolean(R.bool.tablet)) {
-            detailContainer.setVisibility(View.GONE);
             setUpMasterFragment();
-        } else {
+        }
+
+        if (boardGame != null) {
             setUpDetailFragment();
+        } else {
+            detailContainer.setVisibility(View.GONE);
         }
     }
 
