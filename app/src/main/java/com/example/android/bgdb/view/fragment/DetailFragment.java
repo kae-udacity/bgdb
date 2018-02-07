@@ -199,6 +199,7 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
         void setBoardGame(BoardGame boardGame);
         void onPostLoad();
         void updateFavouriteIcon(int drawableId, int colorId);
-        void onUpdateFavourite();
+        void updateFavourite();
+        void updateWidget();
     }
 }

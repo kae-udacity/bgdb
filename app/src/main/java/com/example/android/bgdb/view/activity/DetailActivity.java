@@ -1,6 +1,8 @@
 package com.example.android.bgdb.view.activity;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
+import com.example.android.bgdb.model.widget.WidgetProvider;
 import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
@@ -226,7 +229,7 @@ public class DetailActivity extends BaseActivity implements
     }
 
     @Override
-    public void onUpdateFavourite() {
+    public void updateFavourite() {
         result = Activity.RESULT_OK;
         if (getResources().getBoolean(R.bool.tablet)) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -236,6 +239,16 @@ public class DetailActivity extends BaseActivity implements
                 fragment.onActivityResult(getResources().getInteger(R.integer.request_code), result, null);
             }
         }
+    }
+
+    @Override
+    public void updateWidget() {
+        Intent intent = new Intent(this, WidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication())
+                .getAppWidgetIds(new ComponentName(getApplication(), WidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
     @Override
