@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/widget_list_item_height"
+    android:background="@drawable/ripple"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/widget_list_item_padding_vertical"
+    android:paddingBottom="@dimen/widget_list_item_padding_vertical"
+    android:paddingLeft="@dimen/widget_list_item_padding_horizontal"
+    android:paddingRight="@dimen/widget_list_item_padding_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/widget_image_view_thumbnail"
+        android:layout_toStartOf="@+id/widget_image_view_thumbnail"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widget_text_view_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_text_view_height"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/widget_text_view_text_size"
+            tools:text="board game name" />
+
+        <TextView
+            android:id="@+id/widget_text_view_year"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_text_view_height"
+            android:layout_weight="1"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/widget_text_view_text_size"
+            tools:text="2014" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/widget_image_view_thumbnail"
+        android:layout_width="@dimen/widget_thumbnail_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/list_thumbnail_margin"
+        android:layout_marginStart="@dimen/list_thumbnail_margin"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/widget_thumbnail"/>
+
+</RelativeLayout>

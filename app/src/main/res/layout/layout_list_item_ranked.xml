@@ -5,10 +5,10 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
-    android:paddingTop="@dimen/list_item_padding_horizontal"
-    android:paddingBottom="@dimen/list_item_padding_horizontal"
-    android:paddingLeft="@dimen/list_item_padding"
-    android:paddingRight="@dimen/list_item_padding">
+    android:paddingTop="@dimen/list_item_padding_vertical"
+    android:paddingBottom="@dimen/list_item_padding_vertical"
+    android:paddingLeft="@dimen/list_item_padding_horizontal"
+    android:paddingRight="@dimen/list_item_padding_horizontal">
 
     <android.support.constraint.Guideline
         android:id="@+id/list_item_guideline_vertical"

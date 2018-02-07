@@ -6,7 +6,7 @@ import android.support.v4.app.LoaderManager;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.database.QueryFavouriteListLoaderCallbacks;
 import com.example.android.bgdb.view.ContextWrapper;
-import com.example.android.bgdb.view.fragment.BaseListView;
+import com.example.android.bgdb.view.fragment.BaseView;
 import com.example.android.bgdb.view.fragment.LoaderManagerView;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class FavouriteListPresenterImpl implements FavouriteListPresenter {
     private static final int FAVOURITES_LOADER_ID = 201;
 
     private LoaderManagerView loaderManagerView;
-    private BaseListView baseListView;
+    private BaseView baseListView;
 
-    public FavouriteListPresenterImpl(LoaderManagerView loaderManagerView, BaseListView baseListView) {
+    public FavouriteListPresenterImpl(LoaderManagerView loaderManagerView, BaseView baseListView) {
         this.loaderManagerView = loaderManagerView;
         this.baseListView = baseListView;
     }
