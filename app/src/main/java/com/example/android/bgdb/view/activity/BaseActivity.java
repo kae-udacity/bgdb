@@ -76,7 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
                         .findFragmentByTag(getString(boardGameFragmentTagId));
                 if (boardGameFragment != null) {
                     boardGameFragment.clearBoardGames();
-                    boardGameFragment.setTargetFragment(listFragment, 2);
                 }
                 fragmentManager.beginTransaction()
                         .replace(R.id.list_container, listFragment, listFragmentTag)
