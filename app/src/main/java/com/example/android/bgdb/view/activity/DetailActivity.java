@@ -17,10 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.widget.WidgetProvider;
+import com.example.android.bgdb.view.NetworkUtil;
 import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
@@ -56,6 +58,9 @@ public class DetailActivity extends BaseActivity implements
     @BindView(R.id.detail_progress_bar)
     ProgressBar progressBar;
 
+    @BindView(R.id.detail_empty_view)
+    TextView emptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +87,16 @@ public class DetailActivity extends BaseActivity implements
             setUpMasterFragment();
         }
 
-        if (boardGame != null) {
-            setUpDetailFragment();
+        if (NetworkUtil.isOnline(this)) {
+            if (boardGame != null) {
+                setUpDetailFragment();
+            } else {
+                detailContainer.setVisibility(View.GONE);
+                displayEmptyView(getString(R.string.select_board_game));
+            }
         } else {
             detailContainer.setVisibility(View.GONE);
+            displayEmptyView(getString(R.string.no_network_connection));
         }
 
         // If trace is not null, stop it.
@@ -161,7 +172,9 @@ public class DetailActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
+        // If launched via widget on tablet.
         if (getResources().getBoolean(R.bool.tablet)) {
+            // App should exit.
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -232,7 +245,11 @@ public class DetailActivity extends BaseActivity implements
     public void onPostLoad(BoardGame boardGame) {
         progressBar.setVisibility(View.GONE);
         if (boardGame == null) {
-            displayEmptyView();
+            if (NetworkUtil.isOnline(this)) {
+                displayEmptyView(getString(R.string.please_try_again));
+            } else {
+                displayEmptyView(getString(R.string.no_network_connection));
+            }
         } else {
             detailContainer.setVisibility(View.VISIBLE);
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -268,6 +285,7 @@ public class DetailActivity extends BaseActivity implements
 
     @Override
     public void updateFavourite() {
+        // Update result so that favourites list can be updated in master list view.
         result = Activity.RESULT_OK;
         if (getResources().getBoolean(R.bool.tablet)) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -281,6 +299,7 @@ public class DetailActivity extends BaseActivity implements
 
     @Override
     public void updateWidget() {
+        // Update widget so that favourites list can be updated in master list view.
         Intent intent = new Intent(this, WidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = AppWidgetManager.getInstance(getApplication())
@@ -295,8 +314,11 @@ public class DetailActivity extends BaseActivity implements
         super.finish();
     }
 
-    private void displayEmptyView() {
-
+    @Override
+    public void displayEmptyView(String message) {
+        detailContainer.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
+        emptyView.setText(message);
     }
 
     @Override
