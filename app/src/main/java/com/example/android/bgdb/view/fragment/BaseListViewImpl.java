@@ -16,7 +16,6 @@ import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.view.adapter.BaseListAdapter;
 import com.example.android.bgdb.view.adapter.BaseListAdapter.BoardGameOnClickHandler;
-import com.example.android.bgdb.view.adapter.ListAdapter;
 
 import java.util.List;
 
@@ -32,6 +31,7 @@ public abstract class BaseListViewImpl extends Fragment implements
     static final String SEARCH_TYPE = "searchType";
     static final String BOARD_GAME_TAG_ID = "boardGameTagId";
 
+    private ListFragmentListener listener;
     private BaseListAdapter adapter;
     private RecyclerView.SmoothScroller smoothScroller;
 
@@ -42,9 +42,7 @@ public abstract class BaseListViewImpl extends Fragment implements
     ProgressBar progressBar;
 
     @Override
-    public void onCreate(ListAdapter adapter) {
-        this.adapter = adapter;
-
+    public void onCreate() {
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
@@ -94,6 +92,18 @@ public abstract class BaseListViewImpl extends Fragment implements
             recyclerView.setVisibility(View.VISIBLE);
             updateAdapter(boardGames);
         }
+    }
+
+    public ListFragmentListener getListener() {
+        return listener;
+    }
+
+    public void setListener(ListFragmentListener listener) {
+        this.listener = listener;
+    }
+
+    public void setAdapter(BaseListAdapter adapter) {
+        this.adapter = adapter;
     }
 
     private void updateAdapter(List<BoardGame> boardGames) {

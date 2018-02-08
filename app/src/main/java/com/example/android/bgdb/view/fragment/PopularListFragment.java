@@ -30,8 +30,6 @@ import butterknife.ButterKnife;
  */
 public class PopularListFragment extends BaseListViewImpl {
 
-    private ListFragmentListener listener;
-
     public PopularListFragment() {
         // Required empty public constructor
     }
@@ -58,13 +56,13 @@ public class PopularListFragment extends BaseListViewImpl {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
-        PopularListAdapter adapter = new PopularListAdapter(getContext(), this);
-        onCreate(adapter);
+        setAdapter(new PopularListAdapter(getContext(), this));
+        onCreate();
 
         Bundle args = getArguments();
         int boardGameTagId = getBoardGameTagId(args);
         String boardGameFragmentTag = getString(boardGameTagId);
-        BoardGameFragment boardGameFragment = listener.getBoardGameFragment(boardGameFragmentTag);
+        BoardGameFragment boardGameFragment = getListener().getBoardGameFragment(boardGameFragmentTag);
         if (boardGameFragment == null) {
             return view;
         }
@@ -72,6 +70,7 @@ public class PopularListFragment extends BaseListViewImpl {
         if (boardGameFragment.getBoardGames() == null
                 || boardGameFragment.getBoardGames().isEmpty()) {
             SearchType searchType = getSearchType(args);
+            // Initialise presenter to communicate with the model and load the list.
             PopularListPresenter popularListPresenter = new PopularListPresenterImpl(this, boardGameFragment);
             popularListPresenter.load(searchType);
         } else {
@@ -101,7 +100,7 @@ public class PopularListFragment extends BaseListViewImpl {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ListFragmentListener) {
-            listener = (ListFragmentListener) context;
+            setListener((ListFragmentListener) context);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ListFragmentListener");
@@ -111,7 +110,7 @@ public class PopularListFragment extends BaseListViewImpl {
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        setListener(null);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class PopularListFragment extends BaseListViewImpl {
         Activity activity = getActivity();
         if (activity != null) {
             if (getActivity().getResources().getBoolean(R.bool.tablet)) {
-                listener.showDetailFragment(boardGame);
+                getListener().showDetailFragment(boardGame);
             } else {
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra(getString(R.string.board_game), boardGame);

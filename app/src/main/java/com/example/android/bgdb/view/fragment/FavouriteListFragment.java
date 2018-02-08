@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
  */
 public class FavouriteListFragment extends BaseListViewImpl implements LoaderManagerView {
 
-    private ListFragmentListener listener;
     private FavouriteListPresenter presenter;
 
     public FavouriteListFragment() {
@@ -59,13 +58,14 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
+        // Initialise presenter to communicate with model.
         presenter = new FavouriteListPresenterImpl(
                 FavouriteListFragment.this,
                 FavouriteListFragment.this);
         presenter.load(new ContextWrapper(getContext()));
 
-        ListAdapter adapter = new ListAdapter(getContext(), this);
-        onCreate(adapter);
+        setAdapter(new ListAdapter(getContext(), this));
+        onCreate();
         return view;
     }
 
@@ -73,7 +73,7 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ListFragmentListener) {
-            listener = (ListFragmentListener) context;
+            setListener((ListFragmentListener) context);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ListFragmentListener");
@@ -83,13 +83,15 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        setListener(null);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // If user clicked on favourites icon in detail screen.
         if (requestCode == getResources().getInteger(R.integer.request_code)
                 && resultCode == Activity.RESULT_OK) {
+            // Reload master list to refresh view.
             presenter.load(new ContextWrapper(getContext()));
         }
     }
@@ -108,7 +110,7 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
         Activity activity = getActivity();
         if (activity != null) {
             if (getActivity().getResources().getBoolean(R.bool.tablet)) {
-                listener.showDetailFragment(boardGame);
+                getListener().showDetailFragment(boardGame);
             } else {
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra(getString(R.string.board_game), boardGame);
