@@ -91,8 +91,11 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
         listener.setUpActionBar(toolbar);
+
+        // Initialise presenter to communicate with model.
         presenter = new DetailPresenterImpl(this, this);
 
+        // Initialise database loader listeners.
         LoaderListener insertListener = new InsertLoaderListener(listener);
         queryListener = new QueryLoaderListener(listener);
         deleteListener =
@@ -107,6 +110,7 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
             }
         }
 
+        // Calculate the alpha of the rating container and set it.
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -132,6 +136,7 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
             case R.id.action_favourite:
                 if (activity != null) {
                     BoardGame boardGame = listener.getBoardGame();
+                    // First, try deleting board game.
                     presenter.delete(new ContextWrapper(getContext()), deleteListener, boardGame.getId());
                 }
                 break;

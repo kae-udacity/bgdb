@@ -37,13 +37,16 @@ public class DeleteLoaderListener implements LoaderListener {
 
     @Override
     public void onPostLoad(boolean successful) {
+        // If board game was deleted from database.
         if (successful) {
             listener.updateFavourite();
             listener.updateFavouriteIcon(R.drawable.ic_favorite_border_black, R.color.white);
             listener.updateWidget();
         } else {
+            // If thumbnail blob is null in BoardGame.
             final BoardGame boardGame = listener.getBoardGame();
             if (boardGame.getThumbnailBlob() == null) {
+                // Load thumbnail.
                 Glide.with(context)
                         .asBitmap()
                         .load(boardGame.getThumbnailUrl())
@@ -53,11 +56,14 @@ public class DeleteLoaderListener implements LoaderListener {
                                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                 thumbnail.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
                                 byte[] thumbnailBlob = outputStream.toByteArray();
+                                // Once thumbnail is loaded, save it in BoardGame.
                                 boardGame.setThumbnailBlob(thumbnailBlob);
+                                // Insert BoardGame into database.
                                 presenter.insert(new ContextWrapper(context), insertListener, boardGame);
                             }
                         });
             } else {
+                // Insert BoardGame into database.
                 presenter.insert(new ContextWrapper(context), insertListener, boardGame);
             }
         }
