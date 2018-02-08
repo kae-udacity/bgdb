@@ -67,5 +67,5 @@
     <dimen name="widget_thumbnail_width">56dp</dimen>
 
     <dimen name="widget_empty_view_margin">16dp</dimen>
-    <dimen name="widget_empty_view_text_size">20sp</dimen>
+    <dimen name="widget_empty_view_text_size">16sp</dimen>
 </resources>
