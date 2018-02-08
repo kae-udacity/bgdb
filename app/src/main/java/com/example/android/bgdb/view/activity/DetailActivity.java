@@ -27,6 +27,10 @@ import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListe
 import com.example.android.bgdb.view.fragment.FragmentListener;
 import com.example.android.bgdb.view.fragment.MasterFragment;
 import com.example.android.bgdb.view.fragment.ListFragmentListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +62,13 @@ public class DetailActivity extends BaseActivity implements
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        Trace trace = null;
+        // If Google Play Services is available.
+        if (isGooglePlayServicesAvailable()) {
+            // Create trace for Firebase Performance and start it.
+            trace = FirebasePerformance.getInstance().newTrace("DetailActivity_onCreateTrace");
+            trace.start();
+        }
         String boardGameFragmentTag = getString(R.string.detail_board_game_fragment_tag);
         setUpDetailBoardGameFragment(boardGameFragmentTag);
         Intent intent = getIntent();
@@ -76,6 +87,17 @@ public class DetailActivity extends BaseActivity implements
         } else {
             detailContainer.setVisibility(View.GONE);
         }
+
+        // If trace is not null, stop it.
+        if (trace != null) {
+            trace.stop();
+        }
+    }
+
+    public boolean isGooglePlayServicesAvailable(){
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     private void setUpDetailFragment() {
