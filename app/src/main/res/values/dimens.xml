@@ -48,6 +48,9 @@
     <dimen name="detail_rating_container_corner_radius">0dp</dimen>
     <dimen name="detail_rating_container_elevation">4dp</dimen>
 
+    <dimen name="detail_empty_view_margin">16dp</dimen>
+    <dimen name="detail_empty_view_text_size">16sp</dimen>
+
     <dimen name="widget_min_height">40dp</dimen>
     <dimen name="widget_min_width">40dp</dimen>
 

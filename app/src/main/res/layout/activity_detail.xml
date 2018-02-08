@@ -17,4 +17,15 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/detail_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/detail_empty_view_margin"
+        android:textAlignment="center"
+        android:textColor="@color/gray_semi_transparent_88"
+        android:textSize="@dimen/detail_empty_view_text_size"
+        android:visibility="gone" />
+
 </RelativeLayout>
