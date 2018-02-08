@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface BaseView {
 
+    void displayEmptyView();
     void onPreLoad();
     void onPostLoad(List<BoardGame> boardGames);
 }

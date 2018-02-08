@@ -86,12 +86,8 @@ public abstract class BaseListViewImpl extends Fragment implements
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
         progressBar.setVisibility(View.GONE);
-        if (boardGames == null || boardGames.isEmpty()) {
-            displayEmptyView();
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            updateAdapter(boardGames);
-        }
+        recyclerView.setVisibility(View.VISIBLE);
+        updateAdapter(boardGames);
     }
 
     public ListFragmentListener getListener() {
@@ -109,10 +105,6 @@ public abstract class BaseListViewImpl extends Fragment implements
     private void updateAdapter(List<BoardGame> boardGames) {
         adapter.setBoardGames(boardGames);
         adapter.notifyDataSetChanged();
-    }
-
-    private void displayEmptyView() {
-
     }
 
     public void resetScrollPosition() {

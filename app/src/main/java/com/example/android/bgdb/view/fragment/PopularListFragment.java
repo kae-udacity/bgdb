@@ -15,6 +15,7 @@ import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.model.SearchType;
 import com.example.android.bgdb.presenter.PopularListPresenter;
 import com.example.android.bgdb.presenter.PopularListPresenterImpl;
+import com.example.android.bgdb.view.NetworkUtil;
 import com.example.android.bgdb.view.activity.DetailActivity;
 import com.example.android.bgdb.view.adapter.PopularListAdapter;
 
@@ -111,6 +112,16 @@ public class PopularListFragment extends BaseListViewImpl {
     public void onDetach() {
         super.onDetach();
         setListener(null);
+    }
+
+    @Override
+    public void displayEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        if (NetworkUtil.isOnline(getContext())) {
+            getListener().displayEmptyView(getString(R.string.please_try_again));
+        } else {
+            getListener().displayEmptyView(getString(R.string.no_network_connection));
+        }
     }
 
     @Override

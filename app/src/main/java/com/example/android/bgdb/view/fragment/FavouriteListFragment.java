@@ -106,6 +106,12 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     }
 
     @Override
+    public void displayEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        getListener().displayEmptyView(getString(R.string.add_some_favourites));
+    }
+
+    @Override
     public void onClick(BoardGame boardGame) {
         Activity activity = getActivity();
         if (activity != null) {

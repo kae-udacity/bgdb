@@ -25,4 +25,7 @@
     <string name="description">Description</string>
     <string name="favourite">favourite</string>
     <string name="add_some_favourites">Add some favourites.</string>
+    <string name="no_network_connection">No network connection. Please connect to a network and try again.</string>
+    <string name="select_board_game">Select a board game.</string>
+    <string name="please_try_again">Something went wrong. Please try again.</string>
 </resources>
