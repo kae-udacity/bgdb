@@ -36,7 +36,7 @@ public class PopularListPresenterImpl implements PopularListPresenter {
     public void onPostLoad(List<BoardGame> boardGames) {
         boardGameView.setBoardGames(boardGames);
         if (boardGames == null || boardGames.isEmpty()) {
-            popularListView.displayEmptyView();
+            popularListView.showEmptyView();
         } else {
             popularListView.onPostLoad(boardGames);
         }

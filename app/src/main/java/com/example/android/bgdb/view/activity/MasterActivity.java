@@ -40,7 +40,7 @@ public class MasterActivity extends BaseActivity implements
     }
 
     @Override
-    public void displayEmptyView(String message) {
+    public void showEmptyView(String message) {
         RecyclerView listRecyclerView = findViewById(R.id.list_recycler_view);
         listRecyclerView.setVisibility(View.GONE);
 

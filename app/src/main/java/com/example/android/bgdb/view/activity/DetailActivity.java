@@ -92,11 +92,11 @@ public class DetailActivity extends BaseActivity implements
                 setUpDetailFragment();
             } else {
                 detailContainer.setVisibility(View.GONE);
-                displayEmptyView(getString(R.string.select_board_game));
+                showEmptyView(getString(R.string.select_board_game));
             }
         } else {
             detailContainer.setVisibility(View.GONE);
-            displayEmptyView(getString(R.string.no_network_connection));
+            showEmptyView(getString(R.string.no_network_connection));
         }
 
         // If trace is not null, stop it.
@@ -246,9 +246,9 @@ public class DetailActivity extends BaseActivity implements
         progressBar.setVisibility(View.GONE);
         if (boardGame == null) {
             if (NetworkUtil.isOnline(this)) {
-                displayEmptyView(getString(R.string.please_try_again));
+                showEmptyView(getString(R.string.please_try_again));
             } else {
-                displayEmptyView(getString(R.string.no_network_connection));
+                showEmptyView(getString(R.string.no_network_connection));
             }
         } else {
             detailContainer.setVisibility(View.VISIBLE);
@@ -315,7 +315,7 @@ public class DetailActivity extends BaseActivity implements
     }
 
     @Override
-    public void displayEmptyView(String message) {
+    public void showEmptyView(String message) {
         detailContainer.setVisibility(View.INVISIBLE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setText(message);

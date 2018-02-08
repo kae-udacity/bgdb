@@ -115,12 +115,12 @@ public class PopularListFragment extends BaseListViewImpl {
     }
 
     @Override
-    public void displayEmptyView() {
+    public void showEmptyView() {
         progressBar.setVisibility(View.GONE);
         if (NetworkUtil.isOnline(getContext())) {
-            getListener().displayEmptyView(getString(R.string.please_try_again));
+            getListener().showEmptyView(getString(R.string.please_try_again));
         } else {
-            getListener().displayEmptyView(getString(R.string.no_network_connection));
+            getListener().showEmptyView(getString(R.string.no_network_connection));
         }
     }
 

@@ -47,7 +47,7 @@ public class FavouriteListPresenterImpl implements FavouriteListPresenter {
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
         if (boardGames == null || boardGames.isEmpty()) {
-            baseListView.displayEmptyView();
+            baseListView.showEmptyView();
         } else {
             baseListView.onPostLoad(boardGames);
         }
