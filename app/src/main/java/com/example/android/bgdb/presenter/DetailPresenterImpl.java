@@ -45,7 +45,11 @@ public class DetailPresenterImpl implements DetailPresenter {
 
     @Override
     public void onPostLoad(BoardGame boardGame) {
-        detailView.onPostLoad(boardGame);
+        if (boardGame == null) {
+            detailView.showEmptyView();
+        } else {
+            detailView.onPostLoad(boardGame);
+        }
     }
 
     @Override

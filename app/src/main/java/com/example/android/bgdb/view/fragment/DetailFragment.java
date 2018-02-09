@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment implements DetailView, LoaderManagerView {
+public class DetailFragment extends Fragment implements LoaderManagerView {
 
     private DetailFragmentListener listener;
     private DetailPresenter presenter;
@@ -93,7 +93,7 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
         listener.setUpActionBar(toolbar);
 
         // Initialise presenter to communicate with model.
-        presenter = new DetailPresenterImpl(this, this);
+        presenter = new DetailPresenterImpl(this, listener);
 
         // Initialise database loader listeners.
         LoaderListener insertListener = new InsertLoaderListener(listener);
@@ -159,19 +159,6 @@ public class DetailFragment extends Fragment implements DetailView, LoaderManage
     public void onDetach() {
         super.onDetach();
         listener = null;
-    }
-
-    @Override
-    public void onPreLoad() {
-        listener.onPreLoad();
-    }
-
-    @Override
-    public void onPostLoad(BoardGame boardGame) {
-        if (listener == null) {
-            return;
-        }
-        listener.onPostLoad(boardGame);
     }
 
     @Override

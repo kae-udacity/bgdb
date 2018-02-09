@@ -26,6 +26,7 @@ import com.example.android.bgdb.view.NetworkUtil;
 import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
+import com.example.android.bgdb.view.fragment.DetailView;
 import com.example.android.bgdb.view.fragment.FragmentListener;
 import com.example.android.bgdb.view.fragment.MasterFragment;
 import com.example.android.bgdb.view.fragment.ListFragmentListener;
@@ -43,6 +44,7 @@ import butterknife.ButterKnife;
 public class DetailActivity extends BaseActivity implements
         FragmentListener,
         ListFragmentListener,
+        DetailView,
         DetailFragmentListener {
 
     private Menu menu;
@@ -230,8 +232,19 @@ public class DetailActivity extends BaseActivity implements
     }
 
     @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        if (NetworkUtil.isOnline(this)) {
+            showEmptyView(getString(R.string.please_try_again));
+        } else {
+            showEmptyView(getString(R.string.no_network_connection));
+        }
+    }
+
+    @Override
     public void onPreLoad() {
         detailContainer.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -244,21 +257,13 @@ public class DetailActivity extends BaseActivity implements
     @Override
     public void onPostLoad(BoardGame boardGame) {
         progressBar.setVisibility(View.GONE);
-        if (boardGame == null) {
-            if (NetworkUtil.isOnline(this)) {
-                showEmptyView(getString(R.string.please_try_again));
-            } else {
-                showEmptyView(getString(R.string.no_network_connection));
-            }
-        } else {
-            detailContainer.setVisibility(View.VISIBLE);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            DetailFragment detailFragment = (DetailFragment)
-                    fragmentManager.findFragmentByTag(getString(R.string.detail_fragment));
+        detailContainer.setVisibility(View.VISIBLE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DetailFragment detailFragment = (DetailFragment)
+                fragmentManager.findFragmentByTag(getString(R.string.detail_fragment));
 
-            if (detailFragment != null) {
-                detailFragment.updateView(boardGame);
-            }
+        if (detailFragment != null) {
+            detailFragment.updateView(boardGame);
         }
     }
 
