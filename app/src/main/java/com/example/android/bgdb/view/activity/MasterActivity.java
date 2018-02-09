@@ -3,9 +3,6 @@ package com.example.android.bgdb.view.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
@@ -37,16 +34,6 @@ public class MasterActivity extends BaseActivity implements
     @Override
     public void onFragmentInteraction() {
 
-    }
-
-    @Override
-    public void showEmptyView(String message) {
-        RecyclerView listRecyclerView = findViewById(R.id.list_recycler_view);
-        listRecyclerView.setVisibility(View.GONE);
-
-        TextView listEmptyView = findViewById(R.id.list_empty_view);
-        listEmptyView.setVisibility(View.VISIBLE);
-        listEmptyView.setText(message);
     }
 
     @Override

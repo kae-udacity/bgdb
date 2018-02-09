@@ -108,7 +108,9 @@ public class FavouriteListFragment extends BaseListViewImpl implements LoaderMan
     @Override
     public void showEmptyView() {
         progressBar.setVisibility(View.GONE);
-        getListener().showEmptyView(getString(R.string.add_some_favourites));
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setText(getString(R.string.add_some_favourites));
+        emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
