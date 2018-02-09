@@ -90,6 +90,7 @@ public abstract class BaseListViewImpl extends Fragment implements
     @Override
     public void onPostLoad(List<BoardGame> boardGames) {
         progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         updateAdapter(boardGames);
     }
