@@ -184,11 +184,14 @@ public class DetailFragment extends Fragment implements LoaderManagerView {
         detailRating.setText(boardGame.getRating());
     }
 
-    public interface DetailFragmentListener extends DetailView {
+    public interface DetailFragmentListener {
         void setUpActionBar(Toolbar toolbar);
         void setActionBarTitle(String name);
         BoardGame getBoardGame();
         void setBoardGame(BoardGame boardGame);
+        void showEmptyView();
+        void onPreLoad();
+        void onPostLoad(BoardGame boardGame);
         void onPostLoad();
         void updateFavouriteIcon(int drawableId, int colorId);
         void updateFavourite();
