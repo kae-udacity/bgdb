@@ -26,7 +26,6 @@ import com.example.android.bgdb.view.NetworkUtil;
 import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
-import com.example.android.bgdb.view.fragment.FragmentListener;
 import com.example.android.bgdb.view.fragment.MasterFragment;
 import com.example.android.bgdb.view.fragment.ListFragmentListener;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,7 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseActivity implements
-        FragmentListener,
         ListFragmentListener,
         DetailFragmentListener {
 
@@ -299,7 +297,7 @@ public class DetailActivity extends BaseActivity implements
 
     @Override
     public void updateWidget() {
-        // Update widget so that favourites list can be updated in master list view.
+        // Update widget so that favourites list can be updated.
         Intent intent = new Intent(this, WidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = AppWidgetManager.getInstance(getApplication())
@@ -322,10 +320,5 @@ public class DetailActivity extends BaseActivity implements
         fragmentManager.beginTransaction()
                 .replace(R.id.detail_container, DetailFragment.newInstance(), getString(R.string.detail_fragment))
                 .commit();
-    }
-
-    @Override
-    public void onFragmentInteraction() {
-
     }
 }

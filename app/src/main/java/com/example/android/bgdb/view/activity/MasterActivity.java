@@ -7,11 +7,9 @@ import android.os.Bundle;
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
 import com.example.android.bgdb.view.fragment.MasterFragment;
-import com.example.android.bgdb.view.fragment.FragmentListener;
 import com.example.android.bgdb.view.fragment.ListFragmentListener;
 
 public class MasterActivity extends BaseActivity implements
-        FragmentListener,
         ListFragmentListener {
 
     @Override
@@ -29,11 +27,6 @@ public class MasterActivity extends BaseActivity implements
         fragmentManager.beginTransaction()
                 .replace(R.id.master_container, masterFragment, getString(R.string.master_fragment))
                 .commit();
-    }
-
-    @Override
-    public void onFragmentInteraction() {
-
     }
 
     @Override
