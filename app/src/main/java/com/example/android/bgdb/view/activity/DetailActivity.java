@@ -89,7 +89,13 @@ public class DetailActivity extends BaseActivity implements
             setUpDetailFragment();
         } else {
             detailContainer.setVisibility(View.GONE);
-            showEmptyView();
+            if (getResources().getBoolean(R.bool.tablet)) {
+                // When opening app for the first time in tablet layout,
+                // no board game will be selected.
+                showEmptyView(getString(R.string.select_board_game));
+            } else {
+                showEmptyView();
+            }
         }
 
         // If trace is not null, stop it.
@@ -224,13 +230,17 @@ public class DetailActivity extends BaseActivity implements
 
     @Override
     public void showEmptyView() {
+        if (!NetworkUtil.isOnline(this)) {
+            showEmptyView(getString(R.string.no_network_connection));
+        } else {
+            showEmptyView(getString(R.string.please_try_again));
+        }
+    }
+
+    public void showEmptyView(String message) {
         progressBar.setVisibility(View.GONE);
         detailContainer.setVisibility(View.INVISIBLE);
-        if (NetworkUtil.isOnline(this)) {
-            emptyView.setText(getString(R.string.please_try_again));
-        } else {
-            emptyView.setText(getString(R.string.no_network_connection));
-        }
+        emptyView.setText(message);
         emptyView.setVisibility(View.VISIBLE);
     }
 

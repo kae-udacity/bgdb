@@ -33,6 +33,9 @@ public class DetailAsyncTask extends AsyncTask<BoardGame, BoardGame, BoardGame> 
     @Override
     protected BoardGame doInBackground(BoardGame... boardGames) {
         BoardGame boardGame = boardGames[0];
+        if (boardGame.getId() == null || boardGame.getId().isEmpty()) {
+            return null;
+        }
         URL url = UrlBuilder.getDetailUrl(boardGame.getId());
         try {
             Document document = Jsoup.parse(url, 30000);
