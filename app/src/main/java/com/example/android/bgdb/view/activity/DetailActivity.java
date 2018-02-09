@@ -26,7 +26,6 @@ import com.example.android.bgdb.view.NetworkUtil;
 import com.example.android.bgdb.view.fragment.BoardGameFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment;
 import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
-import com.example.android.bgdb.view.fragment.DetailView;
 import com.example.android.bgdb.view.fragment.FragmentListener;
 import com.example.android.bgdb.view.fragment.MasterFragment;
 import com.example.android.bgdb.view.fragment.ListFragmentListener;
@@ -44,7 +43,6 @@ import butterknife.ButterKnife;
 public class DetailActivity extends BaseActivity implements
         FragmentListener,
         ListFragmentListener,
-        DetailView,
         DetailFragmentListener {
 
     private Menu menu;
@@ -89,16 +87,11 @@ public class DetailActivity extends BaseActivity implements
             setUpMasterFragment();
         }
 
-        if (NetworkUtil.isOnline(this)) {
-            if (boardGame != null) {
-                setUpDetailFragment();
-            } else {
-                detailContainer.setVisibility(View.GONE);
-                showEmptyView(getString(R.string.select_board_game));
-            }
+        if (boardGame != null) {
+            setUpDetailFragment();
         } else {
             detailContainer.setVisibility(View.GONE);
-            showEmptyView(getString(R.string.no_network_connection));
+            showEmptyView();
         }
 
         // If trace is not null, stop it.
@@ -234,11 +227,13 @@ public class DetailActivity extends BaseActivity implements
     @Override
     public void showEmptyView() {
         progressBar.setVisibility(View.GONE);
+        detailContainer.setVisibility(View.INVISIBLE);
         if (NetworkUtil.isOnline(this)) {
-            showEmptyView(getString(R.string.please_try_again));
+            emptyView.setText(getString(R.string.please_try_again));
         } else {
-            showEmptyView(getString(R.string.no_network_connection));
+            emptyView.setText(getString(R.string.no_network_connection));
         }
+        emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -317,13 +312,6 @@ public class DetailActivity extends BaseActivity implements
     public void finish() {
         setResult(result);
         super.finish();
-    }
-
-    @Override
-    public void showEmptyView(String message) {
-        detailContainer.setVisibility(View.INVISIBLE);
-        emptyView.setVisibility(View.VISIBLE);
-        emptyView.setText(message);
     }
 
     @Override
