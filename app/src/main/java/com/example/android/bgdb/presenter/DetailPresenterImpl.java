@@ -8,7 +8,7 @@ import com.example.android.bgdb.model.database.InsertFavouriteLoaderCallbacks;
 import com.example.android.bgdb.model.database.QueryFavouriteLoaderCallbacks;
 import com.example.android.bgdb.model.task.DetailAsyncTask;
 import com.example.android.bgdb.view.ContextWrapper;
-import com.example.android.bgdb.view.fragment.DetailView;
+import com.example.android.bgdb.view.fragment.DetailFragment.DetailFragmentListener;
 import com.example.android.bgdb.view.fragment.LoaderManagerView;
 import com.example.android.bgdb.view.loaderlistener.LoaderListener;
 
@@ -23,14 +23,14 @@ public class DetailPresenterImpl implements DetailPresenter {
     private static final int QUERY_FAVOURITE_LOADER_ID = 204;
 
     private LoaderManagerView loaderManagerView;
-    private DetailView detailView;
+    private DetailFragmentListener listener;
     private LoaderListener queryListener;
     private LoaderListener insertListener;
     private LoaderListener deleteListener;
 
-    public DetailPresenterImpl(LoaderManagerView loaderManagerView, DetailView detailView) {
+    public DetailPresenterImpl(LoaderManagerView loaderManagerView, DetailFragmentListener listener) {
         this.loaderManagerView = loaderManagerView;
-        this.detailView = detailView;
+        this.listener = listener;
     }
 
     @Override
@@ -40,15 +40,15 @@ public class DetailPresenterImpl implements DetailPresenter {
 
     @Override
     public void onPreLoad() {
-        detailView.onPreLoad();
+        listener.onPreLoad();
     }
 
     @Override
     public void onPostLoad(BoardGame boardGame) {
         if (boardGame == null) {
-            detailView.showEmptyView();
+            listener.showEmptyView();
         } else {
-            detailView.onPostLoad(boardGame);
+            listener.onPostLoad(boardGame);
         }
     }
 
