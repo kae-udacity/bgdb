@@ -11,6 +11,8 @@ This was created as the final project of the Android Developer Nanodegree course
 - Created custom BottomNavigationView for tablet layout to remove text label from below icon. Label is displayed in the app bar instead.
 - Implemented database contract, ContentProvider, and Loaders to store and update favourites.
 - Added CollapsingToolbarLayout to detail screen to display board game image and title.
+- Implemented app widget to show favourites using AppWidgetProvider, RemoteViewsService.
+- Added Firebase Crashlytics and Firebase Performance to allow for performance reporting.
 
 ## Example Usage
 
