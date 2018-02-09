@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.bgdb.R;
 import com.example.android.bgdb.model.BoardGame;
@@ -40,6 +41,9 @@ public abstract class BaseListViewImpl extends Fragment implements
 
     @BindView(R.id.list_progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.list_empty_view)
+    TextView emptyView;
 
     @Override
     public void onCreate() {
