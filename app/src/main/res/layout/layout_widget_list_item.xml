@@ -9,7 +9,9 @@
     android:paddingTop="@dimen/widget_list_item_padding_vertical"
     android:paddingBottom="@dimen/widget_list_item_padding_vertical"
     android:paddingLeft="@dimen/widget_list_item_padding_horizontal"
-    android:paddingRight="@dimen/widget_list_item_padding_horizontal">
+    android:paddingStart="@dimen/widget_list_item_padding_horizontal"
+    android:paddingRight="@dimen/widget_list_item_padding_horizontal"
+    android:paddingEnd="@dimen/widget_list_item_padding_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
